@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud-Kalender | Dr. Becker (Privat)</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --header-color: #2c3e50;
+            --border-color: #ddd;
+            --accent-color: #d4af37; /* Becker-Gold */
+            --today-bg: #e8f0fe;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .calendar-container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background-color: var(--header-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-header h1 { margin: 0; font-size: 1.5rem; }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .day-label {
+            background: #eee;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .day {
+            min-height: 100px;
+            padding: 10px;
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .day:nth-child(7n) { border-right: none; }
+
+        .day-number {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        /* Termin-Styling */
+        .event {
+            font-size: 0.75rem;
+            padding: 4px 6px;
+            margin-bottom: 3px;
+            border-radius: 3px;
+            cursor: pointer;
+            line-height: 1.2;
+        }
+
+        .event-work { background-color: #d1ecf1; color: #0c5460; border-left: 3px solid #17a2b8; }
+        .event-health { background-color: #f8d7da; color: #721c24; border-left: 3px solid #dc3545; }
+        .event-legal { background-color: #fff3cd; color: #856404; border-left: 3px solid var(--accent-color); font-weight: bold; }
+        .event-private { background-color: #e2e3e5; color: #383d41; border-left: 3px solid #6c757d; }
+
+        /* Tooltip-Effekt für die Notiz */
+        .event:hover::after {
+            content: attr(data-note);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            width: 150px;
+            z-index: 10;
+            font-size: 0.7rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="calendar-container">
+    <div class="calendar-header">
+        <button style="background:none; border:none; color:white; cursor:pointer;">&lt;</button>
+        <h1>Januar 2025</h1>
+        <button style="background:none; border:none; color:white; cursor:pointer;">&gt;</button>
+    </div>
+
+    <div class="calendar-grid">
+        <div class="day-label">Mo</div><div class="day-label">Di</div><div class="day-label">Mi</div><div class="day-label">Do</div><div class="day-label">Fr</div><div class="day-label">Sa</div><div class="day-label">So</div>
+        
+        <!-- Kalenderwoche 1 -->
+        <div class="day"><div class="day-number"></div></div>
+        <div class="day"><div class="day-number"></div></div>
+        <div class="day"><div class="day-number">1</div><div class="event event-private">Neujahrsempfang Holding</div></div>
+        <div class="day"><div class="day-number">2</div></div>
+        <div class="day"><div class="day-number">3</div></div>
+        <div class="day"><div class="day-number">4</div></div>
+        <div class="day"><div class="day-number">5</div></div>
+
+        <!-- Kalenderwoche 2 -->
+        <div class="day"><div class="day-number">6</div><div class="event event-work">Vorstandssitzung (Reporting)</div></div>
+        <div class="day"><div class="day-number">7</div></div>
+        <div class="day"><div class="day-number">8</div><div class="event event-health">Check-up Kardiologe (Dr. Wagner)</div></div>
+        <div class="day"><div class="day-number">9</div></div>
+        <div class="day"><div class="day-number">10</div><div class="event event-work">Aussprache Sohn (Büro)</div></div>
+        <div class="day"><div class="day-number">11</div></div>
+        <div class="day"><div class="day-number">12</div></div>
+
+        <!-- Kalenderwoche 3 -->
+        <div class="day"><div class="day-number">13</div></div>
+        <div class="day"><div class="day-number">14</div><div class="event event-private">Finanzberaterin: Portfolio-Review</div></div>
+        <div class="day" style="background-color: var(--today-bg);">
+            <div class="day-number">15</div>
+            <div class="event event-legal" data-note="Notiz: Tradition_Gründung">Termin Dr. Gerda Becker (Testamentsänderung)</div>
+        </div>
+        <div class="day"><div class="day-number">16</div></div>
+        <div class="day"><div class="day-number">17</div><div class="event event-work">Investoren-Call Tech-StartUp (Sohn)</div></div>
+        <div class="day"><div class="day-number">18</div></div>
+        <div class="day"><div class="day-number">19</div></div>
+
+        <!-- Kalenderwoche 4 -->
+        <div class="day"><div class="day-number">20</div><div class="event event-legal">Klaus & Partner: Erstbesprechung</div></div>
+        <div class="day"><div class="day-number">21</div></div>
+        <div class="day"><div class="day-number">22</div><div class="event event-private">Abendessen Finanzberaterin</div></div>
+        <div class="day"><div class="day-number">23</div></div>
+        <div class="day"><div class="day-number">24</div></div>
+        <div class="day"><div class="day-number">25</div></div>
+        <div class="day"><div class="day-number">26</div></div>
+    </div>
+</div>
+
+</body>
+</html>
