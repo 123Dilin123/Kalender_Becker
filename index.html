@@ -198,7 +198,7 @@
 </div>
 
 <footer>
-    System-Status: Archiv-Abgleich aktiv // Letzter Cloud-Sync: 18.05.2026 // Zugriffsebene: ADMINISTRATOR
+    System-Status: Archiv-Abgleich active // Letzter Cloud-Sync: 18.05.2026 // Zugriffsebene: ADMINISTRATOR
 </footer>
 
 <script>
@@ -272,7 +272,7 @@
         "2025-05-16": [{ cat: "legal", title: "Dr. Becker: Zwischenstand", note: "Prüfung der Beweismittel von K&P auf rechtliche Relevanz" }],
         "2025-05-20": [{ cat: "private", title: "Essen Alt-Herren-Verband", note: "Austausch über aktuelle wirtschaftliche Entwicklungen" }],
         "2025-05-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheiten-Verwertung & Pfandrechte" }],
-        "2025-05-23": [{ cat: "work", title: "Außerordentliche Beiratssitzung", note: "Eskalation wegen Missmanagement des Sohnes" }],
+        "2025-05-23": [{ cat: "work", title: "Außerordentliche Beiratssitzung", note: "Eskalationswegen Missmanagement des Sohnes" }],
         "2025-05-26": [{ cat: "health", title: "Dr. Wagner: Rezeptausstellung", note: "Routinekontrolle Blutdruck (150/92)" }],
         "2025-05-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vierteljahresbericht Anlageerfolg & Liquidität" }],
 
@@ -326,7 +326,7 @@
         "2025-09-12": [{ cat: "work", title: "Vorbereitungsmeeting Beirat", note: "Absprache mit Co-Vorsitzendem gegen den Sohn" }],
         "2025-09-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Finalisierung Aufsichtsratsnotizen & Sperranträge" }],
         "2025-09-19": [{ cat: "private", title: "Essen mit ehem. Senatspräsidenten", note: "Diskretes Gespräch über Familienrecht und Holdingstrukturen" }],
-        "2025-09-22": [{ cat: "business", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
+        "2025-09-22": [{ cat: "work", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
         "2025-09-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Krisensitzung nach Aufsichtsrat; Einleitung Notfallplan" }],
         "2025-09-26": [{ cat: "legal", title: "Mandatsbesprechung Dr. Becker", note: "Vorbereitung formeller Schritte gegen Sohn" }],
         "2025-09-29": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruckkontrolle (148/92). Anpassung der Abenddosis" }],
@@ -408,7 +408,7 @@
         "2026-03-09": [{ cat: "work", title: "Beiratstreffen Holding", note: "Abstimmung über Entlastungsverweigerung des Sohnes" }],
         "2026-03-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Erbrechtskanzlei & Kostenplanung" }],
         "2026-03-13": [{ cat: "private canceled", title: "Abgesagt: Besuch ", note: "Tochter verweigert Herausgabe/Treffen weiterhin" }],
-        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Rechtsicherhiet Prüfen" }],
+        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Rechtssicherheit Prüfen" }],
         "2026-03-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umsetzung Pflichtteilsanordnung im Vermögensplan" }],
         "2026-03-20": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Juristenclub; Erörterung testamentarischer Absicherungen" }],
         "2026-03-23": [{ cat: "health", title: "Labor Dr. Wagner", note: "Erneutes Blutbild; Kontrolle der Stressparameter" }],
@@ -532,13 +532,14 @@
         });
 
         let firstDay = new Date(currentYear, currentMonth, 1);
+        // Korrektur für europäischen Wochenstart (Montag statt Sonntag)
         let startDayOfWeek = firstDay.getDay() - 1; 
         if (startDayOfWeek < 0) startDayOfWeek = 6;
 
         let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         let prevDaysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-        // Vormonat auffüllen
+        // Vormonat exakt auffüllen
         for (let i = startDayOfWeek - 1; i >= 0; i--) {
             let num = prevDaysInMonth - i;
             let div = document.createElement('div');
@@ -574,7 +575,7 @@
             grid.appendChild(div);
         }
 
-        // Folgemonat auffüllen
+        // Folgemonat auffüllen für ein symmetrisches Grid
         let totalCells = startDayOfWeek + daysInMonth;
         let nextMonthDays = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
         if (totalCells + nextMonthDays < 42) nextMonthDays += 7;
