@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Becker_Vault | Monatskalender</title>
+    <title>Becker_Vault | Digitaler Kalender</title>
     <style>
         :root {
             --becker-gold: #d4af37;
             --becker-dark: #2c3e50;
             --bg-gray: #f4f7f6;
             --event-legal: #fff3cd;
-            --event-business: #d1ecf1;
+            --event-work: #d1ecf1;
             --event-health: #f8d7da;
             --event-private: #e2e3e5;
             --event-finance: #e2f0d9;
-            --event-special: #fbc2c4;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-gray);
             margin: 0;
             padding: 20px;
@@ -28,221 +27,149 @@
             max-width: 1100px;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
             overflow: hidden;
         }
 
         header {
             background: var(--becker-dark);
             color: white;
-            padding: 20px 30px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 3px solid var(--becker-gold);
-        }
-
-        .header-title h1 {
-            margin: 0;
-            font-size: 1.6rem;
-            letter-spacing: 1px;
-        }
-
-        .header-title small {
-            color: #b2bec3;
-            font-size: 0.85rem;
-        }
-
-        .controls {
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 15px;
         }
 
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .nav-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
             color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 5px 12px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
         .nav-btn:hover {
-            background: var(--becker-gold);
-            color: var(--becker-dark);
+            background: rgba(255,255,255,0.1);
             border-color: var(--becker-gold);
         }
 
-        .select-input {
-            background: white;
-            color: var(--becker-dark);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
+        select.month-select {
+            background: #34495e;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 5px 10px;
+            border-radius: 4px;
             font-weight: bold;
-            outline: none;
+            cursor: pointer;
         }
 
         .search-box {
             padding: 8px 15px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.9);
-            width: 200px;
-            outline: none;
-            font-size: 0.85rem;
+            border: none;
+            width: 250px;
         }
 
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            background-color: #e2e8f0;
+            background-color: #ddd;
             gap: 1px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #ddd;
         }
 
         .weekday {
-            background: #f1f5f9;
-            padding: 12px;
+            background: #eee;
+            padding: 12px 10px;
             text-align: center;
             font-weight: bold;
             font-size: 0.8rem;
-            color: #475569;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #555;
         }
 
         .day {
             background: white;
-            min-height: 110px;
+            min-height: 130px;
             padding: 8px;
             position: relative;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            transition: background-color 0.2s;
-        }
-
-        .day:hover {
-            background-color: #fafbfc;
         }
 
         .day-number {
             font-size: 0.85rem;
-            font-weight: 600;
-            color: #64748b;
+            color: #999;
             margin-bottom: 6px;
-            display: inline-block;
-        }
-
-        .day.today {
-            background: #fffdf5;
-        }
-
-        .day.today .day-number {
-            color: var(--becker-gold);
             font-weight: bold;
         }
 
-        .day.other-month {
-            background: #f8fafc;
+        .day.current-month .day-number {
+            color: #333;
         }
 
-        .day.other-month .day-number {
-            color: #cbd5e1;
-        }
-
-        .event-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex-grow: 1;
+        .events-container {
+            flex: 1;
             overflow-y: auto;
-            max-height: 90px;
         }
 
         .event {
             font-size: 0.7rem;
             padding: 4px 6px;
-            border-radius: 4px;
+            margin-bottom: 4px;
+            border-radius: 3px;
             border-left: 3px solid transparent;
-            cursor: pointer;
-            line-height: 1.3;
-            transition: transform 0.1s ease;
+            line-height: 1.2;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        .event:hover {
-            transform: translateY(-1px);
-            filter: brightness(95%);
-        }
-
-        /* Farbkategorien */
+        /* Kategorien */
         .legal { background: var(--event-legal); border-left-color: var(--becker-gold); color: #856404; }
-        .business { background: var(--event-business); border-left-color: #17a2b8; color: #0c5460; }
+        .work { background: var(--event-work); border-left-color: #17a2b8; color: #0c5460; }
         .health { background: var(--event-health); border-left-color: #dc3545; color: #721c24; }
         .private { background: var(--event-private); border-left-color: #6c757d; color: #383d41; }
-        .finance { background: var(--event-finance); border-left-color: #2e7d32; color: #1b5e20; }
-        .special { background: var(--event-special); border-left-color: #c62828; color: #b71c1c; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .finance { background: var(--event-finance); border-left-color: #28a745; color: #1e4620; }
+
+        .canceled {
+            text-decoration: line-through;
+            opacity: 0.55;
+            background: #f8f9fa !important;
+            border-left-color: #adb5bd !important;
+            color: #6c757d !important;
+        }
 
         .note-preview {
             display: block;
             font-size: 0.62rem;
             font-style: italic;
-            opacity: 0.85;
             margin-top: 2px;
-            border-top: 1px dashed rgba(0,0,0,0.15);
+            color: #666;
+            border-top: 1px dashed rgba(0,0,0,0.05);
             padding-top: 2px;
         }
 
-        .highlight-day {
-            background: #fff8e1 !important;
-            box-shadow: inset 0 0 0 1px var(--becker-gold);
-        }
+        .day.other-month { background: #fafafa; }
+        .day.highlight-birthday { background: #fff9e6; border: 1px solid var(--becker-gold); }
 
         footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            font-size: 0.75rem;
-            color: #64748b;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        /* Suchergebnisse-Overlay */
-        .search-results-panel {
-            padding: 15px 30px;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-            display: none;
-        }
-
-        .search-results-panel h3 {
-            margin: 0 0 10px 0;
-            font-size: 0.9rem;
-            color: var(--becker-dark);
-        }
-
-        .result-item {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            margin-bottom: 5px;
-            display: inline-flex;
-            gap: 10px;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .result-item:hover {
-            border-color: var(--becker-gold);
+            text-align: center;
+            padding: 15px;
+            font-size: 0.7rem;
+            color: #888;
+            background: #f9f9f9;
         }
     </style>
 </head>
@@ -250,230 +177,311 @@
 
 <div class="calendar-container">
     <header>
-        <div class="header-title">
-            <h1>DIGITALER KALENDER</h1>
-            <small>Verschlüsseltes Privatarchiv // Dr. Becker</small>
+        <div>
+            <h1 id="calendar-title" style="margin:0; font-size: 1.4rem; letter-spacing: 1px;">JANUAR 2025</h1>
+            <small>Verschlüsseltes Digitalarchiv // Dr. Becker (Privat-Archiv)</small>
         </div>
-        <div class="controls">
-            <button class="nav-btn" onclick="prevMonth()">&lt; Vorheriger</button>
-            <select id="monthSelect" class="select-input" onchange="jumpToSelected()">
-                <option value="0">Januar</option>
-                <option value="1">Februar</option>
-                <option value="2">März</option>
-                <option value="3">April</option>
-                <option value="4">Mai</option>
-                <option value="5">Juni</option>
-                <option value="6">Juli</option>
-                <option value="7">August</option>
-                <option value="8">September</option>
-                <option value="9">Oktober</option>
-                <option value="10">November</option>
-                <option value="11">Dezember</option>
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
+            <select id="month-select" class="month-select" onchange="jumpToMonth()">
+                <!-- Wird per JS befüllt -->
             </select>
-            <select id="yearSelect" class="select-input" onchange="jumpToSelected()">
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-            </select>
-            <button class="nav-btn" onclick="nextMonth()">Nächster &gt;</button>
-            <input type="text" id="search" class="search-box" placeholder="Suchen..." onkeyup="searchCalendar()">
+            <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
         </div>
+        <input type="text" id="search" class="search-box" placeholder="Archiv durchsuchen..." onkeyup="searchCalendar()">
     </header>
 
-    <div class="calendar-grid" id="calendarGrid">
-        <!-- Generiert sich dynamisch via JavaScript -->
-    </div>
-
-    <div id="searchResults" class="search-results-panel">
-        <h3>Gefundene Archiv-Einträge:</h3>
-        <div id="resultsList"></div>
+    <div class="calendar-grid" id="calendar-grid">
+        <!-- Wochentage und Tage werden dynamisch per Skript injiziert -->
     </div>
 </div>
 
 <footer>
-    <div>Zugriffsebene: <strong style="color: #c62828;">ADMINISTRATOR (DECRYP_OK)</strong></div>
-    <div>Sicherer Cloud-Sync aktiv // Stand: Mai 2026</div>
+    System-Status: Archiv-Abgleich aktiv // Letzter Cloud-Sync: 18.05.2026 // Zugriffsebene: ADMINISTRATOR
 </footer>
 
 <script>
-    // Datenbank aller Termine aus dem Privat-Archiv
-    const eventDatabase = [
-        { date: '2025-01-15', title: 'Termin Dr. Gerda Becker', category: 'legal', note: 'Testamentsänderung (Notiz: Tradition_Gründung)' },
-        { date: '2025-01-20', title: 'Klaus & Partner: Erstbesprechung', category: 'private', note: 'Auftrag: Überwachung „Objekt Tochter“' },
-        { date: '2025-02-12', title: 'Tochter: Dauerauftrag gecancelt', category: 'finance', note: 'Unterhaltszahlung für Kommune eingestellt' },
-        { date: '2025-04-02', title: 'Zwischenbericht K&P erhalten', category: 'private', note: 'Verdacht auf konspirative Treffen bestätigt' },
-        { date: '2025-06-15', title: 'Check-up Kardiologe (Dr. Wagner)', category: 'health', note: 'Belastungs-EKG; Stressreduktion dringend empfohlen' },
-        { date: '2025-09-22', title: 'Holding-Aufsichtsrat: Sohn', category: 'business', note: 'Massive Verluste im Tech-Start-up (Inkompetenz!)' },
-        { date: '2025-11-15', title: 'Termin K&P (Büro)', category: 'private', note: 'Übergabe erster Foto-Dossiers' },
-        { date: '2025-12-24', title: 'Heiligabend (Allein in Waldvilla)', category: 'private', note: 'Absage an Kinder erteilt; Treffen mit Beraterin' },
-        { date: '2026-02-10', title: 'K&P: Beweis Eheschließung', category: 'private', note: 'Beweismittel gesichert: Ringe / Negative angefordert' },
-        { date: '2026-03-15', title: 'Instruktion Dr. Gerda Becker', category: 'legal', note: 'Kinder auf gesetzlichen Pflichtteil setzen' },
-        { date: '2026-05-10', title: 'Aussprache Sohn (Abgekanzelt)', category: 'private', note: 'Erneute Forderung nach Schuldenbegleichung' },
-        { date: '2026-05-15', title: 'Dr. Becker: Kanzleiklausur', category: 'legal', note: 'Keine Erreichbarkeit bis Montag; letzte Prüfung Testament' },
-        { date: '2026-05-17', title: 'Redevorbereitung: Abrechnung', category: 'private', note: 'Notizen für 70. Geburtstag finalisieren' },
-        { date: '2026-05-18', title: '70. GEBURTSTAG (FAMILIENFEST)', category: 'special', note: 'Ablauf: 18:00 Empfang; 20:00 Rede (Enthüllung)' },
-        { date: '2026-05-19', title: 'Termin Dr. Gerda Becker', category: 'legal', note: 'Testament ändern!' },
-        { date: '2026-07-01', title: 'Nachlassverwaltung (SOKO)', category: 'legal', note: 'Inventur der Waldvilla durch Finanzberaterin' }
-    ];
+    // Vollständige Datenbasis (2025 - Juli 2026)
+    const eventData = {
+        // --- 2025 ---
+        "2025-01-15": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testamentsänderung (Notiz: Tradition_Gründung)" }],
+        "2025-01-20": [{ cat: "private", title: "Klaus & Partner: Erstbesprechung", note: "Auftrag: Überwachung „Objekt Tochter“" }],
+        "2025-01-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Status Quo Vermögensaufteilung & Liquiditätsprüfung" }],
+        "2025-01-24": [{ cat: "private canceled", title: "Abgesagt: Abendessen Tochter", note: "Von Tochter kurzfristig per Textnachricht storniert" }],
+        "2025-01-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überprüfung Holding-Ausschüttungen" }],
+        
+        "2025-02-04": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruck-Kontrollmessung (Wert erhöht: 155/95)" }],
+        "2025-02-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Analyse Verlustgeschäfte Auslandsbeteiligungen" }],
+        "2025-02-06": [{ cat: "work", title: "Firmentreffen Rhein-Main-Holding", note: "Strategiegespräch Restrukturierung" }],
+        "2025-02-12": [{ cat: "finance", title: "Tochter: Dauerauftrag gecancelt", note: "Unterhaltszahlung für Kommune eingestellt" }],
+        "2025-02-13": [{ cat: "private", title: "Treffen mit Sohn", note: "Ort: Hotelbar. Thema: Seine Forderung nach Zwischenfinanzierung Start-up" }],
+        "2025-02-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Dokumentation gestoppter Zahlungsströme" }],
+        "2025-02-21": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Ratskeller; Austausch über alte Zeiten & juristische Netzwerke" }],
+        "2025-02-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Steueroptimierung Waldvilla" }],
+        
+        "2025-03-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Quartalsabschluss" }],
+        "2025-03-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eskalationsszenarien Einlagenrückforderung" }],
+        "2025-03-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Depot-Umschichtung defensiv" }],
+        "2025-03-24": [{ cat: "private canceled", title: "Abgesagt: Geburtstag Enkel", note: "Besuchseinladung durch Tochter zurückgezogen" }],
+        "2025-03-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Cash-Reserven für unvorhergesehene Rechtskosten" }],
+        
+        "2025-04-02": [
+            { cat: "private", title: "Zwischenbericht K&P erhalten", note: "Verdacht auf konspirative Treffen bestätigt" },
+            { cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Honorar-Sonderbudget K&P" }
+        ],
+        "2025-04-09": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Bilanzkorrekturen Tech-Sektor" }],
+        "2025-04-14": [{ cat: "health", title: "Dr. Wagner: Akut-Termin", note: "Anhaltendes Kopfkriseln; Blutdruckspitze (160/100). Dosis angepasst." }],
+        "2025-04-16": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überweisung Kanzlei Becker freigegeben" }],
+        "2025-04-23": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Auswertung Schenkungsverträge alt" }],
+        "2025-04-30": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Privatdarlehen Sohn" }],
+        
+        "2025-05-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überwachung Zahlungseingänge" }],
+        "2025-05-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Beiratssitzung" }],
+        "2025-05-20": [{ cat: "private", title: "Essen Alt-Herren-Verband", note: "Austausch über aktuelle wirtschaftliche Entwicklungen" }],
+        "2025-05-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheiten-Verwertung" }],
+        "2025-05-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vierteljahresbericht Anlageerfolg" }],
+        
+        "2025-06-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Rücklagenkontrolle" }],
+        "2025-06-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sonderbudgetierung Privatarchiv" }],
+        "2025-06-15": [{ cat: "health", title: "Check-up Kardiologe (Dr. Wagner)", note: "Belastungs-EKG; Stressreduktion dringend empfohlen" }],
+        "2025-06-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Strategiegespräch Erbersparnis" }],
+        "2025-06-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Immobilienbewertungen" }],
+        
+        "2025-07-02": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Laufende Verträge Audit" }],
+        "2025-07-09": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsstatus Mitte 2025" }],
+        "2025-07-14": [{ cat: "private canceled", title: "Abgesagt: Sonntagslunch Tochter", note: "Erneut per Mail wegen angeblicher Terminkollision storniert" }],
+        "2025-07-16": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umschichtungen Immobilienfonds" }],
+        "2025-07-23": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Treuhänder-Sonderbericht" }],
+        "2025-07-30": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Zinsabgrenzungen" }],
+        
+        "2025-08-06": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Urlaubsvertretung besprochen" }],
+        "2025-08-13": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Rechnungsprüfungen" }],
+        "2025-08-20": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Mieteinzugskontrolle" }],
+        "2025-08-25": [{ cat: "work", title: "Krisentreffen Holding", note: "Sohn fordert außerordentliche Finanzspritze für IT-Sparte" }],
+        "2025-08-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Bewertung Haftungsrisiko Sohn" }],
+        
+        "2025-09-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Aufsichtsrat" }],
+        "2025-09-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Detailanalyse Bilanzen Sohn" }],
+        "2025-09-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Finalisierung Aufsichtsratsnotizen" }],
+        "2025-09-22": [{ cat: "work", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
+        "2025-09-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Krisensitzung nach Aufsichtsrat" }],
+        
+        "2025-10-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Erstellung Vermögensstatus neu" }],
+        "2025-10-08": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sanierungsbedingungen für Tech-Sparte" }],
+        "2025-10-14": [{ cat: "health", title: "Routine-Check Dr. Wagner", note: "Blutdruck unter Belastung weiterhin zu hoch. Medikation erhöht." }],
+        "2025-10-15": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Kapitalerhöhung blockiert" }],
+        "2025-10-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Kontrolle Privatentnahmen" }],
+        "2025-10-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Winterbudget" }],
+        
+        "2025-11-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung K&P Honorare" }],
+        "2025-11-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Treffen K&P" }],
+        "2025-11-15": [{ cat: "private", title: "Termin K&P (Büro)", note: "Übergabe erster Foto-Dossiers" }],
+        "2025-11-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sichtung Beweismaterial-Kosten" }],
+        "2025-11-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Jahresabschlussplanung" }],
+        
+        "2025-12-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abschlussbuchungen 2025" }],
+        "2025-12-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsplanung Feiertage" }],
+        "2025-12-15": [{ cat: "private", title: "Geschäftsessen mit Sohn", note: "Konfrontation bezüglich gefälschter Holding-Berichte" }],
+        "2025-12-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Letzte Durchsprache vor Weihnachten" }],
+        "2025-12-21": [{ cat: "private canceled", title: "Abgesagt: Adventskaffee Familie", note: "Von Tochter und Sohn kollektiv boykottiert" }],
+        "2025-12-24": [{ cat: "private", title: "Heiligabend (Allein in Waldvilla)", note: "Absage an Kinder erteilt; Treffen mit Beraterin" }],
+        "2025-12-31": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Notfall-Überprüfung Kontenzugriffe" }],
 
-    // Standard-Startmonat (Mai 2026, um direkt das Geburtstagsgeschehen im Blick zu haben)
+        // --- 2026 ---
+        "2026-01-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eröffnungsbilanz 2026" }],
+        "2026-01-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sperrung Kreditlinien Entwurf" }],
+        "2026-01-20": [{ cat: "private", title: "Treffen mit ehem. Senatskollegen", note: "Privatclub; vertrauliches Gespräch über Erbrechtsrahmen" }],
+        "2026-01-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Beweissicherung" }],
+        "2026-01-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Analyse Finanzbewegungen Tochter" }],
+        
+        "2026-02-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Budgetfreigabe K&P Finalphase" }],
+        "2026-02-10": [{ cat: "private", title: "K&P: Beweis Eheschließung", note: "Beweismittel gesichert: Ringe / Negative angefordert" }],
+        "2026-02-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Auswertung K&P-Beweise bzgl. Schenkungswiderruf" }],
+        "2026-02-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Dr. Becker Konsultation" }],
+        "2026-02-23": [{ cat: "health", title: "Dr. Wagner: Belastungstest", note: "Blutdruck unter Stress besorgniserregend (165/105). Warnung vor Überarbeitung." }],
+        "2026-02-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umschichtung Bargeldreserven" }],
+        
+        "2026-03-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Pflichtteilsentzug-Unterlagen" }],
+        "2026-03-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Erbrechtskanzlei" }],
+        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Kinder auf gesetzlichen Pflichtteil setzen" }],
+        "2026-03-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umsetzung Pflichtteilsanordnung im Vermögensplan" }],
+        "2026-03-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überprüfung Stiftungsmodell" }],
+        
+        "2026-04-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Quartalsabschluss I/2026" }],
+        "2026-04-08": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Planung Geburtstagsbudget & Gästeliste" }],
+        "2026-04-12": [{ cat: "private canceled", title: "Abgesagt: Osteressen Familie", note: "Tochter verweigert Teilnahme; Termin komplett gestrichen" }],
+        "2026-04-15": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sonderzahlungen Event-Agentur" }],
+        "2026-04-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Testaments-Endfassung" }],
+        "2026-04-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abschlussbesprechung Dokumentenmappe" }],
+        
+        "2026-05-06": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Letzte Überweisung an K&P (Mandat beendet)" }],
+        "2026-05-10": [{ cat: "private", title: "Aussprache Sohn (Abgekanzelt)", note: "Erneute Forderung nach Schuldenbegleichung" }],
+        "2026-05-13": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Protokollierung der Aussprache mit dem Sohn" }],
+        "2026-05-15": [{ cat: "legal", title: "Dr. Becker: Kanzleiklausur", note: "Keine Erreichbarkeit bis Montag; letzte Prüfung Testament" }],
+        "2026-05-17": [{ cat: "private", title: "Redevorbereitung: Abrechnung", note: "Notizen für 70. Geburtstag finalisieren" }],
+        "2026-05-18": [{ cat: "work highlight-birthday", title: "70. GEBURTSTAG (FAMILIENFEST)", note: "Ablauf: 18:00 Empfang; 20:00 Rede (Enthüllung)" }],
+        "2026-05-19": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testament ändern! (Dringliche Neufassung nach Vorfall)" }],
+        "2026-05-20": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eiszeit nach Geburtstag. Besprechung Sofortmaßnahmen Vermögenssicherung." }],
+        "2026-05-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sichtung Reaktionen der Verwandtschaft" }],
+        
+        "2026-06-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Verwaltungsschreiben Nachlass-Vorbereitung" }],
+        "2026-06-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheits-Audit Waldvilla veranlasst" }],
+        "2026-06-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Dokumentensortierung Bankschließfach" }],
+        "2026-06-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Einfrieren gemeinschaftlicher Verfügungsrechte" }],
+        
+        "2026-07-01": [{ cat: "legal", title: "Nachlassverwaltung (SOKO)", note: "Inventur der Waldvilla durch Finanzberaterin" }]
+    };
+
+    const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    
+    // Start-Ansicht auf den kritischen Monat setzen
     let currentYear = 2026;
-    let currentMonth = 4; // 4 entspricht Mai (0-basiert)
+    let currentMonth = 4; // Mai (0-indiziert)
 
-    const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+    // Dropdown initialisieren
+    const select = document.getElementById('month-select');
+    for (let year = 2025; year <= 2026; year++) {
+        for (let m = 0; m < 12; m++) {
+            if (year === 2026 && m > 6) break; // Nur bis Juli 2026
+            let opt = document.createElement('option');
+            opt.value = `${year}-${m}`;
+            opt.innerText = `${monthNames[m]} ${year}`;
+            select.appendChild(opt);
+        }
+    }
 
-    function initCalendar() {
-        document.getElementById('yearSelect').value = currentYear;
-        document.getElementById('monthSelect').value = currentMonth;
+    function updateSelectValue() {
+        select.value = `${currentYear}-${currentMonth}`;
+    }
+
+    function changeMonth(dir) {
+        currentMonth += dir;
+        if (currentMonth > 11) {
+            if (currentYear < 2026) {
+                currentYear++;
+                currentMonth = 0;
+            } else {
+                currentMonth = 11;
+            }
+        } else if (currentMonth < 0) {
+            if (currentYear > 2025) {
+                currentYear--;
+                currentMonth = 11;
+            } else {
+                currentMonth = 0;
+            }
+        }
+        if (currentYear === 2026 && currentMonth > 6) {
+            currentMonth = 6; // Cap bei Juli 2026
+        }
+        updateSelectValue();
+        renderCalendar();
+    }
+
+    function jumpToMonth() {
+        let val = select.value.split('-');
+        currentYear = parseInt(val[0]);
+        currentMonth = parseInt(val[1]);
         renderCalendar();
     }
 
     function renderCalendar() {
-        const grid = document.getElementById('calendarGrid');
+        const grid = document.getElementById('calendar-grid');
+        const title = document.getElementById('calendar-title');
+        
+        title.innerText = `${monthNames[currentMonth].toUpperCase()} ${currentYear}`;
         grid.innerHTML = '';
 
-        // Wochentage-Header einfügen
-        weekdays.forEach(day => {
-            const el = document.createElement('div');
-            el.className = 'weekday';
-            el.innerText = day;
-            grid.appendChild(el);
+        // Wochentage-Header
+        const daysOfWeek = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+        daysOfWeek.forEach(d => {
+            let div = document.createElement('div');
+            div.className = 'weekday';
+            div.innerText = d;
+            grid.appendChild(div);
         });
 
-        // Ermittle ersten Wochentag des Monats (angepasst an Montag als 1. Tag)
-        let firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
-        firstDayIndex = firstDayIndex === 0 ? 6 : firstDayIndex - 1; // JS-Sonntag(0) auf Index 6 verschieben
+        // Kalender-Berechnung (Montag als erster Tag)
+        let firstDay = new Date(currentYear, currentMonth, 1);
+        let startDayOfWeek = firstDay.getDay() - 1; 
+        if (startDayOfWeek < 0) startDayOfWeek = 6; // Sonntag korrigieren
 
-        // Anzahl der Tage im aktuellen Monat
-        const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+        let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        let prevDaysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-        // Anzahl der Tage im vorherigen Monat (für Füll-Zellen)
-        const prevMonthTotalDays = new Date(currentYear, currentMonth, 0).getDate();
-
-        // Füllzellen des Vormonats rendern
-        for (let i = firstDayIndex - 1; i >= 0; i--) {
-            const dayNum = prevMonthTotalDays - i;
-            const el = document.createElement('div');
-            el.className = 'day other-month';
-            el.innerHTML = `<span class="day-number">${dayNum}</span>`;
-            grid.appendChild(el);
+        // Tage des Vormonats auffüllen
+        for (let i = startDayOfWeek - 1; i >= 0; i--) {
+            let num = prevDaysInMonth - i;
+            let div = document.createElement('div');
+            div.className = 'day other-month';
+            div.innerHTML = `<span class="day-number">${num}</span><div class="events-container"></div>`;
+            grid.appendChild(div);
         }
 
-        // Aktuelle Monatstage rendern
-        for (let day = 1; day <= totalDays; day++) {
-            const el = document.createElement('div');
-            el.className = 'day';
-
-            // Heutiges Datum markieren, falls zutreffend (Mai 2026 hat Geburtstagshighlight)
-            if (currentYear === 2026 && currentMonth === 4 && day === 18) {
-                el.classList.add('highlight-day');
-            }
-
-            el.innerHTML = `<span class="day-number">${day}</span><div class="event-list" id="day-${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}"></div>`;
-            grid.appendChild(el);
-        }
-
-        // Füllzellen des Folgemonats rendern (um Grid auf 6 Reihen zu vervollständigen)
-        const totalGridCells = 42;
-        const currentFilledCells = firstDayIndex + totalDays;
-        const nextMonthDaysNeeded = totalGridCells - currentFilledCells;
-
-        for (let i = 1; i <= nextMonthDaysNeeded; i++) {
-            const el = document.createElement('div');
-            el.className = 'day other-month';
-            el.innerHTML = `<span class="day-number">${i}</span>`;
-            grid.appendChild(el);
-        }
-
-        // Events einsortieren
-        populateEvents();
-    }
-
-    function populateEvents() {
-        eventDatabase.forEach(ev => {
-            const elementId = `day-${ev.date}`;
-            const targetContainer = document.getElementById(elementId);
+        // Tage des aktuellen Monats
+        for (let d = 1; d <= daysInMonth; d++) {
+            let div = document.createElement('div');
+            div.className = 'day current-month';
             
-            // Falls das Event im aktuell gerenderten Monat liegt, wird es eingefügt
-            if (targetContainer) {
-                const evElement = document.createElement('div');
-                evElement.className = `event ${ev.category}`;
-                evElement.innerHTML = `<strong>${ev.title}</strong><span class="note-preview">${ev.note}</span>`;
-                targetContainer.appendChild(evElement);
+            let dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            
+            // Auf Geburtstag prüfen für Spezial-Klasse
+            if (dateStr === "2026-05-18") {
+                div.className += " highlight-birthday";
             }
-        });
-    }
 
-    function prevMonth() {
-        if (currentMonth === 0) {
-            currentMonth = 11;
-            currentYear--;
-        } else {
-            currentMonth--;
+            let eventsHtml = '';
+            if (eventData[dateStr]) {
+                eventData[dateStr].forEach(ev => {
+                    eventsHtml += `
+                        <div class="event ${ev.cat}">
+                            <strong>${ev.title}</strong>
+                            ${ev.note ? `<span class="note-preview">${ev.note}</span>` : ''}
+                        </div>
+                    `;
+                });
+            }
+
+            div.innerHTML = `<span class="day-number">${d}</span><div class="events-container">${eventsHtml}</div>`;
+            grid.appendChild(div);
         }
-        initCalendar();
-    }
 
-    function nextMonth() {
-        if (currentMonth === 11) {
-            currentMonth = 0;
-            currentYear++;
-        } else {
-            currentMonth++;
+        // Tage des Folgemonats auffüllen, um das 6-Wochen-Raster vollzumachen
+        let totalCells = startDayOfWeek + daysInMonth;
+        let nextMonthDays = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+        // Falls noch Reihen fehlen für ein einheitliches Grid:
+        if (totalCells + nextMonthDays < 42) nextMonthDays += 7;
+
+        for (let i = 1; i <= nextMonthDays; i++) {
+            let div = document.createElement('div');
+            div.className = 'day other-month';
+            div.innerHTML = `<span class="day-number">${i}</span><div class="events-container"></div>`;
+            grid.appendChild(div);
         }
-        initCalendar();
     }
 
-    function jumpToSelected() {
-        currentYear = parseInt(document.getElementById('yearSelect').value);
-        currentMonth = parseInt(document.getElementById('monthSelect').value);
-        renderCalendar();
-    }
-
-    function selectDate(dateString) {
-        const parts = dateString.split('-');
-        currentYear = parseInt(parts[0]);
-        currentMonth = parseInt(parts[1]) - 1;
-        initCalendar();
-    }
-
-    // Live-Suche über alle Kalendereinträge der Jahre 2025/2026
     function searchCalendar() {
-        const input = document.getElementById('search').value.toLowerCase();
-        const resultsPanel = document.getElementById('searchResults');
-        const resultsList = document.getElementById('resultsList');
+        let input = document.getElementById('search').value.toLowerCase();
+        let events = document.getElementsByClassName('event');
         
-        if (input === "") {
-            resultsPanel.style.display = "none";
-            return;
-        }
-
-        resultsList.innerHTML = '';
-        let foundAny = false;
-
-        eventDatabase.forEach(ev => {
-            if (ev.title.toLowerCase().includes(input) || ev.note.toLowerCase().includes(input)) {
-                foundAny = true;
-                const dateParts = ev.date.split('-');
-                const formattedDate = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`;
-                
-                const item = document.createElement('div');
-                item.className = 'result-item';
-                item.innerHTML = `<strong>${formattedDate}</strong> - <span>${ev.title} (${ev.note})</span>`;
-                item.onclick = () => selectDate(ev.date);
-                resultsList.appendChild(item);
+        for (let i = 0; i < events.length; i++) {
+            if (events[i].innerText.toLowerCase().includes(input)) {
+                events[i].style.opacity = "1";
+                events[i].style.outline = "2px solid #d4af37";
+            } else {
+                events[i].style.opacity = "0.2";
+                events[i].style.outline = "none";
             }
-        });
-
-        if (foundAny) {
-            resultsPanel.style.display = "block";
-        } else {
-            resultsList.innerHTML = '<span style="font-size:0.8rem; color:#888;">Keine Einträge gefunden.</span>';
-            resultsPanel.style.display = "block";
+            if (input === "") {
+                events[i].style.opacity = "1";
+                events[i].style.outline = "none";
+            }
         }
     }
 
-    // App initialisieren
-    window.onload = initCalendar;
+    // Initialisierung
+    updateSelectValue();
+    renderCalendar();
 </script>
 
 </body>
