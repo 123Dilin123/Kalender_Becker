@@ -39,33 +39,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: nowrap; /* Verhindert das unschöne Umbrechen in die nächste Zeile */
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .header-left {
-            flex-shrink: 0;
-        }
-
-        /* Starre Anordnung für die rechte Seite (Navigation, QR, Suche) auf einer Linie */
+        /* Container für die rechte Seite im Header (Nav, QR-Code, Suche) */
         .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
-            flex-shrink: 0;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .nav-btn {
             background: transparent;
             border: 1px solid rgba(255,255,255,0.4);
             color: white;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -87,34 +83,26 @@
             cursor: pointer;
         }
 
-        /* Fixierte Box für den QR-Code, damit nichts flackert oder springt */
+        /* QR-Code Styling passend zur Leiste */
         .qr-code-box {
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 4px;
-            border-radius: 4px;
-            width: 40px;
-            height: 40px;
-            box-sizing: border-box;
-            flex-shrink: 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
         }
-
-        .qr-code-box img {
-            display: block;
-            width: 32px;
-            height: 32px;
-            border: none;
+        
+        .qr-code-box:hover {
+            transform: scale(1.05);
         }
 
         .search-box {
             padding: 8px 15px;
             border-radius: 20px;
             border: none;
-            width: 220px;
-            box-sizing: border-box;
+            width: 250px;
         }
 
         .calendar-grid {
@@ -213,11 +201,12 @@
 
 <div class="calendar-container">
     <header>
-        <div class="header-left">
+        <div>
             <h1 id="calendar-title" style="margin:0; font-size: 1.4rem; letter-spacing: 1px;">MAI 2026</h1>
             <small>Verschlüsseltes Digitalarchiv // Dr. Becker (Privat-Archiv)</small>
         </div>
         
+        <!-- Rechte Header-Sektion gruppiert Navigation, QR-Code und Suche -->
         <div class="header-right">
             <div class="nav-controls">
                 <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
@@ -227,10 +216,10 @@
                 <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
             </div>
             
-            <!-- Absolut stabiler QR Code -->
+            <!-- Generierter QR Code (40x40px) -->
             <div class="qr-code-box">
                 <a href="https://123dilin123.github.io/Kalender_Becker/" target="_blank" title="Digitalarchiv mobil öffnen">
-                    <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=https://123dilin123.github.io/Kalender_Becker/&choe=UTF-8" alt="QR Code">
+                    <img src="https://chart.googleapis.com/chart?chs=40x40&cht=qr&chl=https://123dilin123.github.io/Kalender_Becker/&choe=UTF-8" dotted alt="QR Code" style="display: block; width: 40px; height: 40px; border: none;">
                 </a>
             </div>
 
@@ -254,7 +243,7 @@
         "2025-01-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eröffnungsstatus Vermögenswerte & Kontenübersicht" }],
         "2025-01-10": [{ cat: "work", title: "Beiratssitzung Holding", note: "Durchsprache der Jahresziele Rhein-Main-Holding" }],
         "2025-01-14": [{ cat: "private", title: "Essen ehem. Weggefährten", note: "Dr. Kanzler & Kollegen, Austausch über juristische Netzwerke" }],
-        "2025-01-15": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testamentsänderung (Notiz: Urkunden aufsetzen)" }],
+        "2025-01-15": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testamentsänderung (Notiz: Urkunden aufsetzen )" }],
         "2025-01-17": [{ cat: "finance", title: "Sondersitzung Vermögen", note: "Prüfung ausländischer Kontenstrukturen" }],
         "2025-01-20": [{ cat: "private", title: "Klaus & Partner: Erstbesprechung", note: "Auftrag: Überwachung „Objekt Tochter“" }],
         "2025-01-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Erhöhung Liquiditätsreserven für Sonderprojekte" }],
@@ -362,7 +351,7 @@
         "2025-08-22": [{ cat: "health", title: "Labor Dr. Wagner", note: "Routinemäßige Überprüfung der Nierenwerte wegen Medikation" }],
         "2025-08-25": [{ cat: "work", title: "Krisentreffen Holding", note: "Sohn fordert außerordentliche Finanzspritze für IT-Sparte" }],
         "2025-08-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Bewertung Haftungsrisiko Sohn & persönliche Bürgschaften" }],
-        "2025-08-29": [{ cat: "private", title: "Treffen mit Sohn", note: "Ort: Kanzleiräume; Letzte Warnung vor rechtlichen Konsecuenzen" }],
+        "2025-08-29": [{ cat: "private", title: "Treffen mit Sohn", note: "Ort: Kanzleiräume; Letzte Warnung vor rechtlichen Konsequenzen" }],
 
         // --- SEPTEMBER 2025 ---
         "2025-09-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Aufsichtsratssitzung & Zahlenaufbereitung" }],
@@ -372,7 +361,7 @@
         "2025-09-12": [{ cat: "work", title: "Vorbereitungsmeeting Beirat", note: "Absprache mit Co-Vorsitzendem gegen den Sohn" }],
         "2025-09-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Finalisierung Aufsichtsratsnotizen & Sperranträge" }],
         "2025-09-19": [{ cat: "private", title: "Essen mit ehem. Senatspräsidenten", note: "Diskretes Gespräch über Familienrecht und Holdingstrukturen" }],
-        "2025-09-22": [{ cat: "work", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
+        "2025-09-22": [{ cat: "business", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
         "2025-09-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Krisensitzung nach Aufsichtsrat; Einleitung Notfallplan" }],
         "2025-09-26": [{ cat: "legal", title: "Mandatsbesprechung Dr. Becker", note: "Vorbereitung formeller Schritte gegen Sohn" }],
         "2025-09-29": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruckkontrolle (148/92). Anpassung der Abenddosis" }],
@@ -394,7 +383,7 @@
         // --- NOVEMBER 2025 ---
         "2025-11-03": [{ cat: "work", title: "Beiratssitzung Holding", note: "Protokollierung der Verfehlungen des Managements" }],
         "2025-11-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung K&P Honorare & Freigabe Sonderbudget" }],
-        "2025-11-07": [{ cat: "private canceled", title: "Essen mit Tochter", note: "Absage per Kanzlei-Sekretariat weitergeleitet" }],
+        "2025-11-07": [{ cat: "private canceled", title: "Abgesagt: Essen mit Tochter", note: "Absage per Kanzlei-Sekretariat weitergeleitet" }],
         "2025-11-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Treffen K&P & finale Fragenliste" }],
         "2025-11-14": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Kontrolle Herzfrequenz und Medikation. Zustand unverändert" }],
         "2025-11-15": [{ cat: "private", title: "Termin K&P (Büro)", note: "Übergabe erster Foto-Dossiers" }],
@@ -454,7 +443,7 @@
         "2026-03-09": [{ cat: "work", title: "Beiratstreffen Holding", note: "Abstimmung über Entlastungsverweigerung des Sohnes" }],
         "2026-03-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Erbrechtskanzlei & Kostenplanung" }],
         "2026-03-13": [{ cat: "private canceled", title: "Abgesagt: Besuch ", note: "Tochter verweigert Herausgabe/Treffen weiterhin" }],
-        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Rechtssicherheit Prüfen" }],
+        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Rechtsicherhiet Prüfen" }],
         "2026-03-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umsetzung Pflichtteilsanordnung im Vermögensplan" }],
         "2026-03-20": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Juristenclub; Erörterung testamentarischer Absicherungen" }],
         "2026-03-23": [{ cat: "health", title: "Labor Dr. Wagner", note: "Erneutes Blutbild; Kontrolle der Stressparameter" }],
