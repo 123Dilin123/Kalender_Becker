@@ -24,7 +24,7 @@
         }
 
         .calendar-container {
-            max-width: 1100px;
+            max-width: 1250px;
             margin: 0 auto;
             background: white;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -53,7 +53,7 @@
             background: transparent;
             border: 1px solid rgba(255,255,255,0.4);
             color: white;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -69,7 +69,7 @@
             background: #34495e;
             color: white;
             border: 1px solid rgba(255,255,255,0.4);
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
@@ -102,8 +102,8 @@
 
         .day {
             background: white;
-            min-height: 130px;
-            padding: 8px;
+            min-height: 165px;
+            padding: 6px;
             position: relative;
             box-sizing: border-box;
             display: flex;
@@ -113,7 +113,7 @@
         .day-number {
             font-size: 0.85rem;
             color: #999;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             font-weight: bold;
         }
 
@@ -124,16 +124,17 @@
         .events-container {
             flex: 1;
             overflow-y: auto;
+            max-height: 135px;
         }
 
         .event {
-            font-size: 0.7rem;
-            padding: 4px 6px;
-            margin-bottom: 4px;
+            font-size: 0.68rem;
+            padding: 3px 5px;
+            margin-bottom: 3px;
             border-radius: 3px;
             border-left: 3px solid transparent;
             line-height: 1.2;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
 
         /* Kategorien */
@@ -145,7 +146,7 @@
 
         .canceled {
             text-decoration: line-through;
-            opacity: 0.55;
+            opacity: 0.5;
             background: #f8f9fa !important;
             border-left-color: #adb5bd !important;
             color: #6c757d !important;
@@ -153,16 +154,16 @@
 
         .note-preview {
             display: block;
-            font-size: 0.62rem;
+            font-size: 0.6rem;
             font-style: italic;
-            margin-top: 2px;
+            margin-top: 1px;
             color: #666;
-            border-top: 1px dashed rgba(0,0,0,0.05);
-            padding-top: 2px;
+            border-top: 1px dashed rgba(0,0,0,0.04);
+            padding-top: 1px;
         }
 
         .day.other-month { background: #fafafa; }
-        .day.highlight-birthday { background: #fff9e6; border: 1px solid var(--becker-gold); }
+        .day.highlight-birthday { background: #fff9e6; border: 2px solid var(--becker-gold); }
 
         footer {
             text-align: center;
@@ -178,7 +179,7 @@
 <div class="calendar-container">
     <header>
         <div>
-            <h1 id="calendar-title" style="margin:0; font-size: 1.4rem; letter-spacing: 1px;">JANUAR 2025</h1>
+            <h1 id="calendar-title" style="margin:0; font-size: 1.4rem; letter-spacing: 1px;">MAI 2026</h1>
             <small>Verschlüsseltes Digitalarchiv // Dr. Becker (Privat-Archiv)</small>
         </div>
         <div class="nav-controls">
@@ -192,7 +193,7 @@
     </header>
 
     <div class="calendar-grid" id="calendar-grid">
-        <!-- Wochentage und Tage werden dynamisch per Skript injiziert -->
+        <!-- Inhalte werden dynamisch injiziert -->
     </div>
 </div>
 
@@ -201,144 +202,274 @@
 </footer>
 
 <script>
-    // Vollständige Datenbasis (2025 - Juli 2026)
     const eventData = {
-        // --- 2025 ---
+        // --- JANUAR 2025 ---
+        "2025-01-03": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruck-Routine-Check nach Neujahr (150/90)" }],
+        "2025-01-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eröffnungsstatus Vermögenswerte & Kontenübersicht" }],
+        "2025-01-10": [{ cat: "work", title: "Beiratssitzung Holding", note: "Durchsprache der Jahresziele Rhein-Main-Holding" }],
+        "2025-01-14": [{ cat: "private", title: "Essen ehem. Weggefährten", note: "Dr. Kanzler & Kollegen, Austausch über juristische Netzwerke" }],
         "2025-01-15": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testamentsänderung (Notiz: Tradition_Gründung)" }],
+        "2025-01-17": [{ cat: "finance", title: "Sondersitzung Vermögen", note: "Prüfung ausländischer Kontenstrukturen" }],
         "2025-01-20": [{ cat: "private", title: "Klaus & Partner: Erstbesprechung", note: "Auftrag: Überwachung „Objekt Tochter“" }],
-        "2025-01-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Status Quo Vermögensaufteilung & Liquiditätsprüfung" }],
-        "2025-01-24": [{ cat: "private canceled", title: "Abgesagt: Abendessen Tochter", note: "Von Tochter kurzfristig per Textnachricht storniert" }],
-        "2025-01-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überprüfung Holding-Ausschüttungen" }],
-        
-        "2025-02-04": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruck-Kontrollmessung (Wert erhöht: 155/95)" }],
+        "2025-01-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Erhöhung Liquiditätsreserven für Sonderprojekte" }],
+        "2025-01-24": [{ cat: "private canceled", title: "Abgesagt: Abendessen Tochter", note: "Von Tochter per SMS kurzfristig storniert" }],
+        "2025-01-27": [{ cat: "health", title: "Laboruntersuchung Dr. Wagner", note: "Großes Blutbild & Stressindikatoren" }],
+        "2025-01-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Holding-Ausschüttungen & Schenkungsfristen" }],
+        "2025-01-31": [{ cat: "private", title: "Gespräch mit Sohn", note: "Thema: Verlustmeldungen seiner Entwicklungsabteilung" }],
+
+        // --- FEBRUAR 2025 ---
+        "2025-02-03": [{ cat: "work", title: "Firmentreffen Rhein-Main-Holding", note: "Aufsichtsrat-Vorbereitung mit Abteilungsleitern" }],
         "2025-02-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Analyse Verlustgeschäfte Auslandsbeteiligungen" }],
-        "2025-02-06": [{ cat: "work", title: "Firmentreffen Rhein-Main-Holding", note: "Strategiegespräch Restrukturierung" }],
+        "2025-02-07": [{ cat: "health", title: "Kontrollmessung Dr. Wagner", note: "Blutdruck kritisch erhöht: 155/95. Stressreduktion angeraten" }],
         "2025-02-12": [{ cat: "finance", title: "Tochter: Dauerauftrag gecancelt", note: "Unterhaltszahlung für Kommune eingestellt" }],
-        "2025-02-13": [{ cat: "private", title: "Treffen mit Sohn", note: "Ort: Hotelbar. Thema: Seine Forderung nach Zwischenfinanzierung Start-up" }],
-        "2025-02-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Dokumentation gestoppter Zahlungsströme" }],
-        "2025-02-21": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Ratskeller; Austausch über alte Zeiten & juristische Netzwerke" }],
-        "2025-02-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Steueroptimierung Waldvilla" }],
-        
-        "2025-03-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Quartalsabschluss" }],
-        "2025-03-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eskalationsszenarien Einlagenrückforderung" }],
-        "2025-03-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Depot-Umschichtung defensiv" }],
-        "2025-03-24": [{ cat: "private canceled", title: "Abgesagt: Geburtstag Enkel", note: "Besuchseinladung durch Tochter zurückgezogen" }],
+        "2025-02-13": [{ cat: "private", title: "Treffen mit Sohn", note: "Hotelbar; Seine Forderung nach Zwischenfinanzierung Tech-Start-up" }],
+        "2025-02-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Dokumentation gestoppter Zahlungsströme an Tochter" }],
+        "2025-02-17": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Ratskeller; Vertrauliches Gespräch über Familiensituation" }],
+        "2025-02-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsabfluss-Kontrolle" }],
+        "2025-02-21": [{ cat: "legal", title: "Rücksprache Kanzlei Becker", note: "Einholen von Auskünften über Stiftungskonstruktionen" }],
+        "2025-02-24": [{ cat: "private canceled", title: "Abgesagt: Besuch Tochter", note: "Keine Rückmeldung auf Terminvorschlag" }],
+        "2025-02-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Steueroptimierung Immobilienbesitz Waldvilla" }],
+        "2025-02-28": [{ cat: "health", title: "Apotheke: Medikamentenabholung", note: "Neueinstellung Blutdrucksenker" }],
+
+        // --- MÄRZ 2025 ---
+        "2025-03-03": [{ cat: "work", title: "Quartalsprüfung Holding", note: "Durchsicht der operativen Verluste der Tech-Sparte" }],
+        "2025-03-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umschichtung defensiver Wertpapierportfolios" }],
+        "2025-03-07": [{ cat: "private", title: "Treffen mit Sohn", note: "Büro Waldvilla; Drängen auf Offenlegung der Bilanzen" }],
+        "2025-03-11": [{ cat: "health", title: "Dr. Wagner: Blutdruck-Check", note: "Werte leicht stabilisiert (145/88). Medikation beibehalten" }],
+        "2025-03-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eskalationsszenarien Einlagenrückforderung Sohn" }],
+        "2025-03-14": [{ cat: "private", title: "Herrenabend Juristenclub", note: "Fachlicher Austausch zu Schenkungswiderruf" }],
+        "2025-03-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Depot-Umschichtung & Cash-Sicherung" }],
+        "2025-03-21": [{ cat: "private canceled", title: "Abgesagt: Geburtstag Enkel", note: "Besuchseinladung durch Tochter entzogen" }],
+        "2025-03-24": [{ cat: "legal", title: "Aktenprüfung Privatarchiv", note: "Sichtung historischer Verträge der Tradition_Gründung" }],
         "2025-03-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Cash-Reserven für unvorhergesehene Rechtskosten" }],
-        
+        "2025-03-28": [{ cat: "work", title: "Gesellschafterversammlung", note: "Kritische Stimmen bezüglich Management des Sohnes" }],
+        "2025-03-31": [{ cat: "health", title: "Ruhemessung Blutdruck", note: "Selbstkontrolle am Abend: 152/94. Unruhe." }],
+
+        // --- APRIL 2025 ---
         "2025-04-02": [
             { cat: "private", title: "Zwischenbericht K&P erhalten", note: "Verdacht auf konspirative Treffen bestätigt" },
             { cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Honorar-Sonderbudget K&P" }
         ],
+        "2025-04-04": [{ cat: "private", title: "Besprechung mit Sohn", note: "Heftiger Streit über Verfehlungen im Start-up" }],
+        "2025-04-07": [{ cat: "work", title: "Firmentreffen Regionalbeirat", note: "Präsenztermin Holding Mainz" }],
         "2025-04-09": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Bilanzkorrekturen Tech-Sektor" }],
-        "2025-04-14": [{ cat: "health", title: "Dr. Wagner: Akut-Termin", note: "Anhaltendes Kopfkriseln; Blutdruckspitze (160/100). Dosis angepasst." }],
-        "2025-04-16": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überweisung Kanzlei Becker freigegeben" }],
+        "2025-04-11": [{ cat: "private canceled", title: "Abgesagt: Wochenend-Treffen Tochter", note: "Wiederholt ohne Angabe von Gründen storniert" }],
+        "2025-04-14": [{ cat: "health", title: "Dr. Wagner: Akut-Termin", note: "Blutdruckspitze (160/100). Dringende Ruhe verordnet" }],
+        "2025-04-16": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überweisung Honorarnote Kanzlei Becker" }],
+        "2025-04-18": [{ cat: "legal", title: "Konsultation Erbrecht", note: "Vorbereitende Notizen Pflichtteilsbeschränkung" }],
         "2025-04-23": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Auswertung Schenkungsverträge alt" }],
-        "2025-04-30": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Privatdarlehen Sohn" }],
-        
-        "2025-05-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überwachung Zahlungseingänge" }],
-        "2025-05-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Beiratssitzung" }],
+        "2025-04-25": [{ cat: "private", title: "Essen mit ehemaligen Richtern", note: "Fachliche Diskussion über Testamentsanfechtungen" }],
+        "2025-04-28": [{ cat: "health", title: "Kontrolltermin Kardiologie", note: "Terminabsprache für großes EKG im Sommer" }],
+        "2025-04-30": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Privatdarlehen Sohn & Kündigungsoptionen" }],
+
+        // --- MAI 2025 ---
+        "2025-05-02": [{ cat: "work", title: "Strategietreffen Holding", note: "Neuausrichtung Investitionsportfolio" }],
+        "2025-05-05": [{ cat: "health", title: "Blutdruckmessung Praxis", note: "148/90. Leichte Entlastung erkennbar" }],
+        "2025-05-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überwachung offener Forderungen Tech-Sparte" }],
+        "2025-05-09": [{ cat: "private canceled", title: "Abgesagt: Muttertag-Lunch", note: "Vorausplanung von Tochter abgelehnt" }],
+        "2025-05-12": [{ cat: "private", title: "Konfrontation Sohn", note: "Letzte Frist zur Vorlage der bereinigten Bilanzen" }],
+        "2025-05-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Beiratssitzung & Sonderprüfung" }],
+        "2025-05-16": [{ cat: "legal", title: "Dr. Becker: Zwischenstand", note: "Prüfung der Beweismittel von K&P auf rechtliche Relevanz" }],
         "2025-05-20": [{ cat: "private", title: "Essen Alt-Herren-Verband", note: "Austausch über aktuelle wirtschaftliche Entwicklungen" }],
-        "2025-05-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheiten-Verwertung" }],
-        "2025-05-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vierteljahresbericht Anlageerfolg" }],
-        
-        "2025-06-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Rücklagenkontrolle" }],
-        "2025-06-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sonderbudgetierung Privatarchiv" }],
+        "2025-05-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheiten-Verwertung & Pfandrechte" }],
+        "2025-05-23": [{ cat: "work", title: "Außerordentliche Beiratssitzung", note: "Eskalation wegen Missmanagement des Sohnes" }],
+        "2025-05-26": [{ cat: "health", title: "Dr. Wagner: Rezeptausstellung", note: "Routinekontrolle Blutdruck (150/92)" }],
+        "2025-05-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vierteljahresbericht Anlageerfolg & Liquidität" }],
+
+        // --- JUNI 2025 ---
+        "2025-06-02": [{ cat: "private", title: "Gespräch Sohn", note: "Kanzlei Mainz; Erneuter Versuch der Schadensbegrenzung" }],
+        "2025-06-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Rücklagenkontrolle für juristische Schritte" }],
+        "2025-06-06": [{ cat: "work", title: "Firmentreffen Holding", note: "Präsentation Sanierungskonzept" }],
+        "2025-06-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sonderbudgetierung Privatarchiv & K&P Folgeauftrag" }],
+        "2025-06-13": [{ cat: "private canceled", title: "Abgesagt: Treffen Tochter Waldvilla", note: "Tochter sagt wegen 'wichtigerer Verpflichtungen' ab" }],
         "2025-06-15": [{ cat: "health", title: "Check-up Kardiologe (Dr. Wagner)", note: "Belastungs-EKG; Stressreduktion dringend empfohlen" }],
-        "2025-06-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Strategiegespräch Erbersparnis" }],
-        "2025-06-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Immobilienbewertungen" }],
-        
-        "2025-07-02": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Laufende Verträge Audit" }],
-        "2025-07-09": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsstatus Mitte 2025" }],
-        "2025-07-14": [{ cat: "private canceled", title: "Abgesagt: Sonntagslunch Tochter", note: "Erneut per Mail wegen angeblicher Terminkollision storniert" }],
+        "2025-06-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Strategiegespräch Erbersparnis & Schenkungen" }],
+        "2025-06-20": [{ cat: "legal", title: "Aktenstudie Dr. Becker", note: "Vorbereitung Entwurf für Pflichtteilsstrafklausel" }],
+        "2025-06-23": [{ cat: "private", title: "Essen Club ehem. Kolleginnen", note: "Fachlicher und privater Austausch" }],
+        "2025-06-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Prüfung Immobilienbewertungen Holding" }],
+        "2025-06-27": [{ cat: "health", title: "Dr. Wagner: Besprechung EKG", note: "Kardiale Parameter stabil, aber Hypertonie behandlungsbedürftig" }],
+        "2025-06-30": [{ cat: "work", title: "Halbjahresabschluss Holding", note: "Zahlen der Tech-Sparte verheerend" }],
+
+        // --- JULI 2025 ---
+        "2025-07-02": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Laufende Verträge Audit & Prüfung Zugriffsvollmachten" }],
+        "2025-07-04": [{ cat: "private", title: "Treffen Sohn", note: "Waldvilla; Ultimatum bezüglich Einlagenrückzahlung gestellt" }],
+        "2025-07-07": [{ cat: "health", title: "Blutdruck-Check Routine", note: "Wert: 146/88. Medikation greift langsam" }],
+        "2025-07-09": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsstatus Mitte 2025 & Ausschüttungssperre" }],
+        "2025-07-11": [{ cat: "work", title: "Krisentreffen Controlling", note: "Sonderprüfung der Konten des Sohnes" }],
+        "2025-07-14": [{ cat: "private canceled", title: "Abgesagt: Sonntagslunch Tochter", note: "Kurzfristige Absage per E-Mail wegen Terminkollision" }],
         "2025-07-16": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umschichtungen Immobilienfonds" }],
-        "2025-07-23": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Treuhänder-Sonderbericht" }],
-        "2025-07-30": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Zinsabgrenzungen" }],
-        
-        "2025-08-06": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Urlaubsvertretung besprochen" }],
-        "2025-08-13": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Rechnungsprüfungen" }],
-        "2025-08-20": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Mieteinzugskontrolle" }],
+        "2025-07-18": [{ cat: "legal", title: "Schriftwechsel Dr. Becker", note: "Erarbeitung der formalen Voraussetzungen für Pflichtteilsentzug" }],
+        "2025-07-23": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Treuhänder-Sonderbericht Holding" }],
+        "2025-07-25": [{ cat: "private", title: "Geschäftsessen Weggefährten", note: "Diskussion über Verlässlichkeit von Familienmitgliedern in Firmen" }],
+        "2025-07-28": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Rezeptverlängerung und kurze Kontrollmessung (152/90)" }],
+        "2025-07-30": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Zinsabgrenzungen & Kreditlinien-Überwachung" }],
+
+        // --- AUGUST 2025 ---
+        "2025-08-01": [{ cat: "work", title: "Prüfung Sanierungsbericht", note: "Zahlen lügen nicht. Erheblicher Vertrauensverlust in Sohn" }],
+        "2025-08-04": [{ cat: "private canceled", title: "Abgesagt: Kaffeetermin Tochter", note: "Keine Reaktion auf Bestätigungsversuch" }],
+        "2025-08-06": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Urlaubsvertretung besprochen & Notfallvollmachten" }],
+        "2025-08-08": [{ cat: "health", title: "Blutdruckkontrolle Selbstmessung", note: "158/96 nach Telefonat mit Sohn. Besorgniserregend" }],
+        "2025-08-11": [{ cat: "private", title: "Diner mit ehem. Partnern", note: "Juristische Altherrenrunde, informeller Austausch" }],
+        "2025-08-13": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Rechnungsprüfungen & Freigabe K&P-Zahlungen" }],
+        "2025-08-18": [{ cat: "legal", title: "Echtheitsprüfung Dokumente", note: "Sichtung Beweismaterial K&P im Privatarchiv" }],
+        "2025-08-20": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Mieteinzugskontrolle Gewerbeimmobilien" }],
+        "2025-08-22": [{ cat: "health", title: "Labor Dr. Wagner", note: "Routinemäßige Überprüfung der Nierenwerte wegen Medikation" }],
         "2025-08-25": [{ cat: "work", title: "Krisentreffen Holding", note: "Sohn fordert außerordentliche Finanzspritze für IT-Sparte" }],
-        "2025-08-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Bewertung Haftungsrisiko Sohn" }],
-        
-        "2025-09-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Aufsichtsrat" }],
-        "2025-09-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Detailanalyse Bilanzen Sohn" }],
-        "2025-09-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Finalisierung Aufsichtsratsnotizen" }],
-        "2025-09-22": [{ cat: "work", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
-        "2025-09-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Krisensitzung nach Aufsichtsrat" }],
-        
-        "2025-10-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Erstellung Vermögensstatus neu" }],
-        "2025-10-08": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sanierungsbedingungen für Tech-Sparte" }],
-        "2025-10-14": [{ cat: "health", title: "Routine-Check Dr. Wagner", note: "Blutdruck unter Belastung weiterhin zu hoch. Medikation erhöht." }],
-        "2025-10-15": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Kapitalerhöhung blockiert" }],
-        "2025-10-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Kontrolle Privatentnahmen" }],
-        "2025-10-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Winterbudget" }],
-        
-        "2025-11-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung K&P Honorare" }],
-        "2025-11-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Treffen K&P" }],
+        "2025-08-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Bewertung Haftungsrisiko Sohn & persönliche Bürgschaften" }],
+        "2025-08-29": [{ cat: "private", title: "Treffen mit Sohn", note: "Ort: Kanzleiräume; Letzte Warnung vor rechtlichen Konsequenzen" }],
+
+        // --- SEPTEMBER 2025 ---
+        "2025-09-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Aufsichtsratssitzung & Zahlenaufbereitung" }],
+        "2025-09-05": [{ cat: "health", title: "Dr. Wagner: Akut-Check", note: "Anhaltendes Ohrensausen. Blutdruck: 162/98. Strikte Anweisung zur Mäßigung" }],
+        "2025-09-08": [{ cat: "private canceled", title: "Abgesagt: Besuch Tochter Waldvilla", note: "Tochter schiebt gesundheitliche Gründe vor" }],
+        "2025-09-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Detailanalyse Bilanzen Sohn & Kreditverträge" }],
+        "2025-09-12": [{ cat: "work", title: "Vorbereitungsmeeting Beirat", note: "Absprache mit Co-Vorsitzendem gegen den Sohn" }],
+        "2025-09-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Finalisierung Aufsichtsratsnotizen & Sperranträge" }],
+        "2025-09-19": [{ cat: "private", title: "Essen mit ehem. Senatspräsidenten", note: "Diskretes Gespräch über Familienrecht und Holdingstrukturen" }],
+        "2025-09-22": [{ cat: "business", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
+        "2025-09-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Krisensitzung nach Aufsichtsrat; Einleitung Notfallplan" }],
+        "2025-09-26": [{ cat: "legal", title: "Mandatsbesprechung Dr. Becker", note: "Vorbereitung formeller Schritte gegen Sohn" }],
+        "2025-09-29": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruckkontrolle (148/92). Anpassung der Abenddosis" }],
+
+        // --- OKTOBER 2025 ---
+        "2025-10-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Erstellung Vermögensstatus neu nach Aufsichtsratsschock" }],
+        "2025-10-03": [{ cat: "private", title: "Gespräch mit Sohn", note: "Waldvilla; Totale Verweigerungshaltung seinerseits" }],
+        "2025-10-06": [{ cat: "work", title: "Firmentreffen Controlling", note: "Einführung restriktiver Ausgabenpolitik in Holding" }],
+        "2025-10-08": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sanierungsbedingungen für Tech-Sparte ausgearbeitet" }],
+        "2025-10-10": [{ cat: "private canceled", title: "Abgesagt: Wochenende Enkel", note: "Tochter blockiert jeglichen Kontakt" }],
+        "2025-10-14": [{ cat: "health", title: "Routine-Check Dr. Wagner", note: "Blutdruck unter Belastung weiterhin zu hoch (155/95)" }],
+        "2025-10-15": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Kapitalerhöhung für Start-up blockiert; Konten eingefroren" }],
+        "2025-10-17": [{ cat: "legal", title: "Archivierung K&P Akten", note: "Sicherung der neuen Fotodossiers im Privatarchiv" }],
+        "2025-10-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Kontrolle Privatentnahmen Sohn & Tochter" }],
+        "2025-10-24": [{ cat: "private", title: "Diner Juristische Gesellschaft", note: "Netzwerktreffen, Ablenkung gesucht" }],
+        "2025-10-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Winterbudget & Liquiditätsabdeckung" }],
+        "2025-10-31": [{ cat: "health", title: "Blutdruckmessung Abend", note: "Wert: 150/94. Konstante Unruhe" }],
+
+        // --- NOVEMBER 2025 ---
+        "2025-11-03": [{ cat: "work", title: "Beiratssitzung Holding", note: "Protokollierung der Verfehlungen des Managements" }],
+        "2025-11-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung K&P Honorare & Freigabe Sonderbudget" }],
+        "2025-11-07": [{ cat: "private canceled", title: "Abgesagt: Essen mit Tochter", note: "Absage per Kanzlei-Sekretariat weitergeleitet" }],
+        "2025-11-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Treffen K&P & finale Fragenliste" }],
+        "2025-11-14": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Kontrolle Herzfrequenz und Medikation. Zustand unverändert" }],
         "2025-11-15": [{ cat: "private", title: "Termin K&P (Büro)", note: "Übergabe erster Foto-Dossiers" }],
-        "2025-11-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sichtung Beweismaterial-Kosten" }],
-        "2025-11-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Jahresabschlussplanung" }],
-        
-        "2025-12-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abschlussbuchungen 2025" }],
-        "2025-12-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsplanung Feiertage" }],
+        "2025-11-17": [{ cat: "legal", title: "Sichtung Foto-Dossiers", note: "Analyse des Materials im Privatarchiv. Verdacht erhärtet" }],
+        "2025-11-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sichtung Beweismaterial-Kosten & steuerliche Einordnung" }],
+        "2025-11-21": [{ cat: "private", title: "Gespräch Sohn", note: "Waldvilla; Letzter Versuch, eine gütliche Einigung zu erzielen" }],
+        "2025-11-24": [{ cat: "work", title: "Aufsichtsrat Sondersitzung", note: "Holding Frankfurt; Konsequenzen für Tech-Sparte eingeleitet" }],
+        "2025-11-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Jahresabschlussplanung & Entzug von Vollmachten" }],
+        "2025-11-28": [{ cat: "health", title: "Blutdruckmessung Praxis", note: "158/95. Dr. Wagner warnt eindringlich vor akutem Risiko" }],
+
+        // --- DEZEMBER 2025 ---
+        "2025-12-01": [{ cat: "legal", title: "Besprechung Dr. Becker", note: "Auftrag zur Finalisierung der Pflichtteils-Strafklausel" }],
+        "2025-12-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abschlussbuchungen 2025 & Konten-Audit" }],
+        "2025-12-05": [{ cat: "private", title: "Essen mit ehem. Weggefährten", note: "Gourmet-Restaurant; Vertrauliche Gespräche" }],
+        "2025-12-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsplanung Feiertage & Sicherung Bargeldbestände" }],
+        "2025-12-12": [{ cat: "health", title: "Labor Dr. Wagner", note: "Blutwerte-Check vor den Feiertagen" }],
         "2025-12-15": [{ cat: "private", title: "Geschäftsessen mit Sohn", note: "Konfrontation bezüglich gefälschter Holding-Berichte" }],
-        "2025-12-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Letzte Durchsprache vor Weihnachten" }],
+        "2025-12-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Letzte Durchsprache vor Weihnachten; Verwahrung Dokumente" }],
+        "2025-12-19": [{ cat: "work", title: "Jahresabschluss Controlling", note: "Feststellung der endgültigen Schadenssumme" }],
         "2025-12-21": [{ cat: "private canceled", title: "Abgesagt: Adventskaffee Familie", note: "Von Tochter und Sohn kollektiv boykottiert" }],
         "2025-12-24": [{ cat: "private", title: "Heiligabend (Allein in Waldvilla)", note: "Absage an Kinder erteilt; Treffen mit Beraterin" }],
-        "2025-12-31": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Notfall-Überprüfung Kontenzugriffe" }],
+        "2025-12-29": [{ cat: "health", title: "Akutmessung Blutdruck", note: "160/100 am Abend. Erhöhung der Dosis eigenständig vorgenommen" }],
+        "2025-12-31": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Notfall-Überprüfung Kontenzugriffe zum Jahreswechsel" }],
 
-        // --- 2026 ---
-        "2026-01-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eröffnungsbilanz 2026" }],
-        "2026-01-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sperrung Kreditlinien Entwurf" }],
+        // --- JANUAR 2026 ---
+        "2026-01-02": [{ cat: "health", title: "Dr. Wagner: Neujahrs-Check", note: "Blutdruck stabilisiert bei 148/90. Erleichterung" }],
+        "2026-01-05": [{ cat: "work", title: "Beiratssitzung Rhein-Main-Holding", note: "Festlegung der harten Sanierungslinie für 2026" }],
+        "2026-01-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eröffnungsbilanz 2026 & Entzug Tochter-Vollmachten" }],
+        "2026-01-09": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Juristenclub; Diskrete Gespräche über Nachlassplanung" }],
+        "2026-01-12": [{ cat: "legal", title: "Konsultation Dr. Becker", note: "Prüfung der geänderten Stiftungsdokumente" }],
+        "2026-01-14": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sperrung Kreditlinien Entwurf & juristische Absicherung" }],
+        "2026-01-16": [{ cat: "private canceled", title: "Abgesagt: Treffen Tochter", note: "Wiederholt abgesagt. Keine Kommunikation mehr möglich" }],
         "2026-01-20": [{ cat: "private", title: "Treffen mit ehem. Senatskollegen", note: "Privatclub; vertrauliches Gespräch über Erbrechtsrahmen" }],
-        "2026-01-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Beweissicherung" }],
-        "2026-01-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Analyse Finanzbewegungen Tochter" }],
-        
-        "2026-02-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Budgetfreigabe K&P Finalphase" }],
+        "2026-01-21": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Beweissicherung & Honorar K&P" }],
+        "2026-01-23": [{ cat: "health", title: "Routinekontrolle Blutdruck", note: "Wert: 152/94. Stresspegel unverändert hoch" }],
+        "2026-01-26": [{ cat: "work", title: "Firmentreffen Frankfurt", note: "Verhandlungen mit Gläubigern der Tech-Sparte" }],
+        "2026-01-28": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Analyse Finanzbewegungen Tochter & Konten-Audit" }],
+
+        // --- FEBRUAR 2026 ---
+        "2026-02-02": [{ cat: "private", title: "Treffen mit Sohn", note: "Waldvilla; Er eskaliert verbal bezüglich Sperrungen" }],
+        "2026-02-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Budgetfreigabe K&P Finalphase & Sonderkonten" }],
+        "2026-02-06": [{ cat: "work", title: "Holding-Beirat Klausur", note: "Festlegung der endgültigen Abberufung des Sohnes" }],
         "2026-02-10": [{ cat: "private", title: "K&P: Beweis Eheschließung", note: "Beweismittel gesichert: Ringe / Negative angefordert" }],
         "2026-02-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Auswertung K&P-Beweise bzgl. Schenkungswiderruf" }],
-        "2026-02-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Dr. Becker Konsultation" }],
+        "2026-02-13": [{ cat: "private canceled", title: "Abgesagt: Aussprache Tochter", note: "Von Tochter blockiert; reagiert nicht auf Anwaltsbriefe" }],
+        "2026-02-16": [{ cat: "legal", title: "Aktenvorbereitung Dr. Becker", note: "Zusammenstellung aller K&P Berichte für das Testament" }],
+        "2026-02-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Dr. Becker Konsultation & Honorierung" }],
+        "2026-02-20": [{ cat: "private", title: "Essen mit ehemaligen Richtern", note: "Erörterung von Sittenwidrigkeit bei Eheschließungen" }],
         "2026-02-23": [{ cat: "health", title: "Dr. Wagner: Belastungstest", note: "Blutdruck unter Stress besorgniserregend (165/105). Warnung vor Überarbeitung." }],
-        "2026-02-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umschichtung Bargeldreserven" }],
-        
+        "2026-02-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umschichtung Bargeldreserven & Schließfach-Inventur" }],
+        "2026-02-27": [{ cat: "work", title: "Quartalsabschluss Holding", note: "Einleitung rechtlicher Schritte gegen die IT-Geschäftsführung" }],
+
+        // --- MÄRZ 2026 ---
+        "2026-03-02": [{ cat: "private", title: "Gespräch mit Sohn", note: "Büro Kanzlei; Letzte Aufforderung zur Kooperation" }],
         "2026-03-04": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Pflichtteilsentzug-Unterlagen" }],
-        "2026-03-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Erbrechtskanzlei" }],
+        "2026-03-06": [{ cat: "health", title: "Dr. Wagner: Kontrolluntersuchung", note: "Blutdruck: 155/92. Anpassung der Medikation vorgenommen" }],
+        "2026-03-09": [{ cat: "work", title: "Beiratstreffen Holding", note: "Abstimmung über Entlastungsverweigerung des Sohnes" }],
+        "2026-03-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Erbrechtskanzlei & Kostenplanung" }],
+        "2026-03-13": [{ cat: "private canceled", title: "Abgesagt: Besuch Enkelkinder", note: "Tochter verweigert Herausgabe/Treffen weiterhin" }],
         "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Kinder auf gesetzlichen Pflichtteil setzen" }],
         "2026-03-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umsetzung Pflichtteilsanordnung im Vermögensplan" }],
-        "2026-03-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überprüfung Stiftungsmodell" }],
-        
-        "2026-04-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Quartalsabschluss I/2026" }],
-        "2026-04-08": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Planung Geburtstagsbudget & Gästeliste" }],
+        "2026-03-20": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Juristenclub; Erörterung testamentarischer Absicherungen" }],
+        "2026-03-23": [{ cat: "health", title: "Labor Dr. Wagner", note: "Erneutes Blutbild; Kontrolle der Stressparameter" }],
+        "2026-03-25": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Überprüfung Stiftungsmodell & Übertragung Waldvilla" }],
+        "2026-03-27": [{ cat: "work", title: "Aufsichtsratssitzung Mainz", note: "Formelle Enthebung des Sohnes aus operativen Funktionen" }],
+
+        // --- APRIL 2026 ---
+        "2026-04-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Quartalsabschluss I/2026 & Feststellung freier Mittel" }],
+        "2026-04-03": [{ cat: "private", title: "Gespräch Sohn", note: "Waldvilla; Letzte bittere Diskussion über Schulden" }],
+        "2026-04-06": [{ cat: "health", title: "Blutdruck-Check Routine", note: "150/90. Trotz hoher Belastung den Umständen entsprechend stabil" }],
+        "2026-04-08": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Planung Geburtstagsbudget & Gästeliste für das Fest" }],
+        "2026-04-10": [{ cat: "work", title: "Firmentreffen Rhein-Main-Holding", note: "Neustrukturierung nach Ausscheiden des Sohnes" }],
         "2026-04-12": [{ cat: "private canceled", title: "Abgesagt: Osteressen Familie", note: "Tochter verweigert Teilnahme; Termin komplett gestrichen" }],
-        "2026-04-15": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sonderzahlungen Event-Agentur" }],
-        "2026-04-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Testaments-Endfassung" }],
-        "2026-04-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abschlussbesprechung Dokumentenmappe" }],
-        
+        "2026-04-15": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sonderzahlungen Event-Agentur & Sicherheitsdienst" }],
+        "2026-04-17": [{ cat: "legal", title: "Durchsicht Entwurf Dr. Becker", note: "Letzte rechtliche Feinheiten der Pflichtteilsklausel" }],
+        "2026-04-20": [{ cat: "private", title: "Essen mit Weggefährten", note: "Traditioneller Kreis; Besprechung der Einladungen zum 70." }],
+        "2026-04-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Testaments-Endfassung & Dokumentendepot" }],
+        "2026-04-24": [{ cat: "health", title: "Dr. Wagner: Rezeptausstellung", note: "Vorsichtsmaßnahme für die Festwoche im Mai" }],
+        "2026-04-29": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abschlussbesprechung Dokumentenmappe für Dr. Becker" }],
+
+        // --- MAI 2026 ---
+        "2026-05-04": [{ cat: "work", title: "Beiratssitzung Holding", note: "Letzte Freigaben vor dem Jubiläum" }],
         "2026-05-06": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Letzte Überweisung an K&P (Mandat beendet)" }],
+        "2026-05-08": [{ cat: "health", title: "Blutdruckprüfung Akut", note: "158/95. Nervosität im Vorfeld des Geburtstags" }],
         "2026-05-10": [{ cat: "private", title: "Aussprache Sohn (Abgekanzelt)", note: "Erneute Forderung nach Schuldenbegleichung" }],
+        "2026-05-11": [{ cat: "private canceled", title: "Abgesagt: Vorgespräch Geburtstag Tochter", note: "Tochter lehnt jegliche Vorbesprechung ab" }],
         "2026-05-13": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Protokollierung der Aussprache mit dem Sohn" }],
         "2026-05-15": [{ cat: "legal", title: "Dr. Becker: Kanzleiklausur", note: "Keine Erreichbarkeit bis Montag; letzte Prüfung Testament" }],
         "2026-05-17": [{ cat: "private", title: "Redevorbereitung: Abrechnung", note: "Notizen für 70. Geburtstag finalisieren" }],
         "2026-05-18": [{ cat: "work highlight-birthday", title: "70. GEBURTSTAG (FAMILIENFEST)", note: "Ablauf: 18:00 Empfang; 20:00 Rede (Enthüllung)" }],
         "2026-05-19": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testament ändern! (Dringliche Neufassung nach Vorfall)" }],
         "2026-05-20": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eiszeit nach Geburtstag. Besprechung Sofortmaßnahmen Vermögenssicherung." }],
-        "2026-05-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sichtung Reaktionen der Verwandtschaft" }],
-        
+        "2026-05-22": [{ cat: "health", title: "Dr. Wagner: Notfall-Blutdruckcheck", note: "Extrem hohe Werte gemessen (170/110) nach familiärer Eskalation" }],
+        "2026-05-25": [{ cat: "private", title: "Essen mit ehem. Kanzleipartnern", note: "Krisengespräch über Konsequenzen des Geburtstagsabends" }],
+        "2026-05-27": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sichtung Reaktionen der Verwandtschaft & Anwaltskorrespondenz" }],
+        "2026-05-29": [{ cat: "legal", title: "Eilverfügung Privatarchiv", note: "Sicherung aller digitalen Spuren und Beweismittel" }],
+
+        // --- JUNI 2026 ---
+        "2026-06-01": [{ cat: "work", title: "Holding-Krisenbeirat", note: "Nachwirkungen der Enthüllungsrede auf den Firmenfrieden" }],
         "2026-06-03": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Verwaltungsschreiben Nachlass-Vorbereitung" }],
-        "2026-06-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheits-Audit Waldvilla veranlasst" }],
-        "2026-06-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Dokumentensortierung Bankschließfach" }],
-        "2026-06-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Einfrieren gemeinschaftlicher Verfügungsrechte" }],
-        
+        "2026-06-05": [{ cat: "health", title: "Dr. Wagner: EKG-Nachkontrolle", note: "Strikte Bettruhe angeraten, hohes psychosomatisches Risiko" }],
+        "2026-06-08": [{ cat: "private canceled", title: "Abgesagt: Klärungsversuch Tochter", note: "Anwaltschaftliche Absage der Gegenseite erhalten" }],
+        "2026-06-10": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Sicherheits-Audit Waldvilla veranlasst; Schlössertausch" }],
+        "2026-06-12": [{ cat: "private", title: "Diskretes Treffen Weggefährten", note: "Absprache über Rückhalt im lokalen Justizapparat" }],
+        "2026-06-15": [{ cat: "health", title: "Blutdruck-Routinecheck", note: "160/95. Werte verbleiben auf gefährlichem Niveau" }],
+        "2026-06-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Dokumentensortierung Bankschließfach & Goldreserven" }],
+        "2026-06-19": [{ cat: "legal", title: "Statusgespräch Dr. Becker", note: "Einreichung der Klageschriften wegen Schenkungswiderruf" }],
+        "2026-06-22": [{ cat: "work", title: "Firmentreffen Mainz", note: "Formelle Bereinigung der Gesellschafterlisten" }],
+        "2026-06-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Einfrieren gemeinschaftlicher Verfügungsrechte vollzogen" }],
+        "2026-06-26": [{ cat: "health", title: "Labor Dr. Wagner", note: "Dringende Überprüfung der Belastungswerte" }],
+        "2026-06-29": [{ cat: "private", title: "Treffen mit Sohn", note: "Letztes Aufeinandertreffen vor Zeugen; Reine Formalien" }],
+
+        // --- JULI 2026 ---
         "2026-07-01": [{ cat: "legal", title: "Nachlassverwaltung (SOKO)", note: "Inventur der Waldvilla durch Finanzberaterin" }]
     };
 
     const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
     
-    // Start-Ansicht auf den kritischen Monat setzen
     let currentYear = 2026;
-    let currentMonth = 4; // Mai (0-indiziert)
+    let currentMonth = 4; // Standardmäßig Mai 2026 anzeigen
 
-    // Dropdown initialisieren
     const select = document.getElementById('month-select');
     for (let year = 2025; year <= 2026; year++) {
         for (let m = 0; m < 12; m++) {
@@ -372,7 +503,7 @@
             }
         }
         if (currentYear === 2026 && currentMonth > 6) {
-            currentMonth = 6; // Cap bei Juli 2026
+            currentMonth = 6;
         }
         updateSelectValue();
         renderCalendar();
@@ -392,7 +523,6 @@
         title.innerText = `${monthNames[currentMonth].toUpperCase()} ${currentYear}`;
         grid.innerHTML = '';
 
-        // Wochentage-Header
         const daysOfWeek = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
         daysOfWeek.forEach(d => {
             let div = document.createElement('div');
@@ -401,15 +531,14 @@
             grid.appendChild(div);
         });
 
-        // Kalender-Berechnung (Montag als erster Tag)
         let firstDay = new Date(currentYear, currentMonth, 1);
         let startDayOfWeek = firstDay.getDay() - 1; 
-        if (startDayOfWeek < 0) startDayOfWeek = 6; // Sonntag korrigieren
+        if (startDayOfWeek < 0) startDayOfWeek = 6;
 
         let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         let prevDaysInMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-        // Tage des Vormonats auffüllen
+        // Vormonat auffüllen
         for (let i = startDayOfWeek - 1; i >= 0; i--) {
             let num = prevDaysInMonth - i;
             let div = document.createElement('div');
@@ -418,14 +547,13 @@
             grid.appendChild(div);
         }
 
-        // Tage des aktuellen Monats
+        // Aktueller Monat
         for (let d = 1; d <= daysInMonth; d++) {
             let div = document.createElement('div');
             div.className = 'day current-month';
             
             let dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             
-            // Auf Geburtstag prüfen für Spezial-Klasse
             if (dateStr === "2026-05-18") {
                 div.className += " highlight-birthday";
             }
@@ -446,10 +574,9 @@
             grid.appendChild(div);
         }
 
-        // Tage des Folgemonats auffüllen, um das 6-Wochen-Raster vollzumachen
+        // Folgemonat auffüllen
         let totalCells = startDayOfWeek + daysInMonth;
         let nextMonthDays = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-        // Falls noch Reihen fehlen für ein einheitliches Grid:
         if (totalCells + nextMonthDays < 42) nextMonthDays += 7;
 
         for (let i = 1; i <= nextMonthDays; i++) {
@@ -469,7 +596,7 @@
                 events[i].style.opacity = "1";
                 events[i].style.outline = "2px solid #d4af37";
             } else {
-                events[i].style.opacity = "0.2";
+                events[i].style.opacity = "0.15";
                 events[i].style.outline = "none";
             }
             if (input === "") {
@@ -479,7 +606,7 @@
         }
     }
 
-    // Initialisierung
+    // Start-Initialisierung
     updateSelectValue();
     renderCalendar();
 </script>
