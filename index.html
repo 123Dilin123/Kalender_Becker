@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Becker_Vault | Monatskalender</title>
+    <title>Becker_Vault | Digitales Archiv</title>
     <style>
         :root {
             --becker-gold: #d4af37;
@@ -13,6 +13,7 @@
             --event-work: #d1ecf1;
             --event-health: #f8d7da;
             --event-private: #e2e3e5;
+            --event-finance: #e2f0d9;
         }
 
         body {
@@ -23,7 +24,7 @@
         }
 
         .calendar-container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -47,73 +48,127 @@
             width: 250px;
         }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            background-color: #ddd;
-            gap: 1px;
-            border: 1px solid #ddd;
-        }
-
-        .weekday {
-            background: #eee;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
-
-        .day {
-            background: white;
-            min-height: 120px;
-            padding: 10px;
+        .timeline {
+            padding: 30px;
             position: relative;
         }
 
-        .day-number {
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 120px;
+            width: 2px;
+            background: #ddd;
+        }
+
+        .year-divider {
+            position: relative;
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--becker-dark);
+            left: 45px;
+            background: white;
+            display: inline-block;
+            padding-right: 10px;
+            z-index: 2;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .item-date {
+            width: 100px;
+            font-size: 0.85rem;
+            color: #777;
+            text-align: right;
+            padding-right: 20px;
+            padding-top: 12px;
+            font-weight: bold;
+        }
+
+        .item-content {
+            flex: 1;
+            background: white;
+            border: 1px solid #e1e4e6;
+            border-radius: 6px;
+            padding: 12px 15px;
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 117px;
+            top: 16px;
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            z-index: 2;
+            border: 2px solid white;
+        }
+
+        .event-title {
+            font-weight: bold;
             font-size: 0.9rem;
-            color: #999;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .event {
-            font-size: 0.7rem;
-            padding: 4px;
             margin-bottom: 4px;
-            border-radius: 3px;
-            border-left: 3px solid transparent;
-            cursor: pointer;
-            line-height: 1.2;
         }
 
-        /* Kategorien */
-        .legal { background: var(--event-legal); border-left-color: var(--becker-gold); color: #856404; }
-        .work { background: var(--event-work); border-left-color: #17a2b8; color: #0c5460; }
-        .health { background: var(--event-health); border-left-color: #dc3545; color: #721c24; }
-        .private { background: var(--event-private); border-left-color: #6c757d; color: #383d41; }
+        .event-details {
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.4;
+        }
 
         .note-preview {
             display: block;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             font-style: italic;
-            margin-top: 2px;
+            margin-top: 5px;
             color: #666;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            padding-top: 4px;
         }
 
-        .highlight { background: #fff9e6; }
-        .other-month { background: #fafafa; color: #ccc; }
+        /* Kategorien-Klassen */
+        .legal { background: var(--event-legal); border-left: 4px solid var(--becker-gold); color: #856404; }
+        .private { background: var(--event-private); border-left: 4px solid #6c757d; color: #383d41; }
+        .finance { background: var(--event-finance); border-left: 4px solid #28a745; color: #1e4620; }
+        .health { background: var(--event-health); border-left: 4px solid #dc3545; color: #721c24; }
+        .business { background: var(--event-work); border-left: 4px solid #007bff; color: #004085; }
+        .event-cat { background: #f8d7da; border-left: 4px solid #bd2130; color: #721c24; }
+
+        .highlight {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            border: 1px solid var(--becker-gold);
+        }
+
+        .deleted-item {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
 
         footer {
             text-align: center;
             padding: 15px;
             font-size: 0.7rem;
             color: #888;
+            background: #f9f9f9;
+            border-top: 1px solid #ddd;
         }
 
-        /* Tooltip-Simulation */
-        .event:hover { filter: brightness(95%); }
+        .timeline-item:hover .item-content {
+            filter: brightness(98%);
+            transform: translateX(2px);
+        }
     </style>
 </head>
 <body>
@@ -121,92 +176,201 @@
 <div class="calendar-container">
     <header>
         <div>
-            <h1 style="margin:0; font-size: 1.4rem;">MAI 2026</h1>
-            <small>Verschlüsseltes Archiv // Dr. Becker</small>
+            <h1 style="margin:0; font-size: 1.4rem;">DIGITALER KALENDER</h1>
+            <small>Verschlüsseltes Archiv // Dr. Becker (Privat-Archiv)</small>
         </div>
-        <input type="text" id="search" class="search-box" placeholder="Suchen (z.B. Notarin)..." onkeyup="searchCalendar()">
+        <input type="text" id="search" class="search-box" placeholder="Suchen (z.B. Testatment, K&P)..." onkeyup="searchCalendar()">
     </header>
 
-    <div class="calendar-grid">
-        <!-- Wochentage -->
-        <div class="weekday">Mo</div><div class="weekday">Di</div><div class="weekday">Mi</div><div class="weekday">Do</div><div class="weekday">Fr</div><div class="weekday">Sa</div><div class="weekday">So</div>
+    <div class="timeline">
+        
+        <div class="year-divider">2025</div>
 
-        <!-- Woche 1 -->
-        <div class="day other-month"><span class="day-number">27</span></div>
-        <div class="day other-month"><span class="day-number">28</span></div>
-        <div class="day other-month"><span class="day-number">29</span></div>
-        <div class="day other-month"><span class="day-number">30</span></div>
-        <div class="day"><span class="day-number">1</span><div class="event private">Tag der Arbeit (Feiertag)</div></div>
-        <div class="day"><span class="day-number">2</span></div>
-        <div class="day"><span class="day-number">3</span></div>
-
-        <!-- Woche 2 -->
-        <div class="day"><span class="day-number">4</span></div>
-        <div class="day"><span class="day-number">5</span></div>
-        <div class="day"><span class="day-number">6</span></div>
-        <div class="day"><span class="day-number">7</span></div>
-        <div class="day"><span class="day-number">8</span></div>
-        <div class="day"><span class="day-number">9</span></div>
-        <div class="day"><span class="day-number">10</span><div class="event private">Aussprache Sohn (Waldvilla)<span class="note-preview">Fristsetzung Schulden</span></div></div>
-
-        <!-- Woche 3 -->
-        <div class="day"><span class="day-number">11</span></div>
-        <div class="day"><span class="day-number">12</span></div>
-        <div class="day"><span class="day-number">13</span></div>
-        <div class="day"><span class="day-number">14</span><div class="event private">Klaus & Partner: Finaler Bericht<span class="note-preview">Akte KP-2026-CB</span></div></div>
-        <div class="day"><span class="day-number">15</span><div class="event legal">Dr. Becker: Kanzleiklausur<span class="note-preview">Keine Erreichbarkeit [DOK-02]</span></div></div>
-        <div class="day"><span class="day-number">16</span></div>
-        <div class="day"><span class="day-number">17</span><div class="event work">Redevorbereitung<span class="note-preview">"Die Abrechnung" finalisieren</span></div></div>
-
-        <!-- Woche 4 (Die Tatwoche) -->
-        <div class="day highlight"><span class="day-number">18</span><div class="event work" style="background:#dc3545; color:white;">70. GEBURTSTAG (FEST)<span class="note-preview" style="color:white;">20:00 Uhr Rede</span></div></div>
-        <div class="day"><span class="day-number">19</span><div class="event legal">Termin Dr. Gerda Becker<span class="note-preview">Testamentsänderung (Unterzeichnung)</span></div></div>
-        <div class="day"><span class="day-number">20</span></div>
-        <div class="day"><span class="day-number">21</span></div>
-        <div class="day"><span class="day-number">22</span></div>
-        <div class="day"><span class="day-number">23</span></div>
-        <div class="day"><span class="day-number">24</span></div>
-
-        <!-- Woche 5 -->
-        <div class="day"><span class="day-number">25</span><div class="event work">Holding-Neustrukturierung</div></div>
-        <div class="day"><span class="day-number">26</span></div>
-        <div class="day"><span class="day-number">27</span></div>
-        <div class="day"><span class="day-number">28</span></div>
-        <div class="day"><span class="day-number">29</span></div>
-        <div class="day"><span class="day-number">30</span></div>
-        <div class="day"><span class="day-number">31</span></div>
-    </div>
-    
-    <div style="padding: 20px; background: #f9f9f9; border-top: 1px solid #ddd;">
-        <h3 style="margin-top:0; font-size: 0.9rem; color: var(--becker-dark);">Wichtige Historie (Januar 2025):</h3>
-        <div class="event legal" style="display:inline-block; padding: 10px;">
-            <strong>15.01.2025:</strong> Ersttermin Testamentsänderung // <em>Notiz: <strong>Tradition_Gründung</strong></em>
+        <!-- 15.01.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">15. Jan</div>
+            <div class="item-content legal">
+                <div class="event-title">Termin Dr. Gerda Becker</div>
+                <div class="event-details">Kategorie: Recht</div>
+                <div class="note-preview">Detail: Testamentsänderung (Tradition_Gründung)</div>
+            </div>
         </div>
+
+        <!-- 20.01.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">20. Jan</div>
+            <div class="item-content private">
+                <div class="event-title">Klaus & Partner: Erstbesprechung</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Auftrag: Überwachung „Objekt Tochter“</div>
+            </div>
+        </div>
+
+        <!-- 12.02.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">12. Feb</div>
+            <div class="item-content finance">
+                <div class="event-title">Tochter: Dauerauftrag gecancelt</div>
+                <div class="event-details">Kategorie: Finanzen</div>
+                <div class="note-preview">Detail: Unterhaltszahlung für Kommune eingestellt</div>
+            </div>
+        </div>
+
+        <!-- 02.04.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">02. Apr</div>
+            <div class="item-content private">
+                <div class="event-title">Zwischenbericht K&P erhalten</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Verdacht auf konspirative Treffen bestätigt</div>
+            </div>
+        </div>
+
+        <!-- 15.06.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">15. Jun</div>
+            <div class="item-content health">
+                <div class="event-title">Check-up Kardiologe (Dr. Wagner)</div>
+                <div class="event-details">Kategorie: Gesundheit</div>
+                <div class="note-preview">Detail: Belastungs-EKG; Stressreduktion dringend empfohlen</div>
+            </div>
+        </div>
+
+        <!-- 22.09.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">22. Sep</div>
+            <div class="item-content business">
+                <div class="event-title">Holding-Aufsichtsrat: Sohn</div>
+                <div class="event-details">Kategorie: Geschäft</div>
+                <div class="note-preview">Detail: Massive Verluste im Tech-Start-up (Inkompetenz!)</div>
+            </div>
+        </div>
+
+        <!-- 15.11.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">15. Nov</div>
+            <div class="item-content private">
+                <div class="event-title">Termin K&P (Büro)</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Übergabe erster Foto-Dossiers</div>
+            </div>
+        </div>
+
+        <!-- 24.12.2025 -->
+        <div class="timeline-item">
+            <div class="item-date">24. Dez</div>
+            <div class="item-content private">
+                <div class="event-title">Heiligabend (Allein in Waldvilla)</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Absage an Kinder erteilt; Treffen mit Beraterin</div>
+            </div>
+        </div>
+
+        <div class="year-divider">2026</div>
+
+        <!-- 10.02.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">10. Feb</div>
+            <div class="item-content private">
+                <div class="event-title">K&P: Beweis Eheschließung</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Beweismittel gesichert: Ringe / Negative angefordert</div>
+            </div>
+        </div>
+
+        <!-- 15.03.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">15. Mär</div>
+            <div class="item-content legal">
+                <div class="event-title">Instruktion Dr. Gerda Becker</div>
+                <div class="event-details">Kategorie: Recht</div>
+                <div class="note-preview">Detail: Kinder auf gesetzlichen Pflichtteil setzen</div>
+            </div>
+        </div>
+
+        <!-- 10.05.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">10. Mai</div>
+            <div class="item-content private">
+                <div class="event-title">Aussprache Sohn (Abgekanzelt)</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Erneute Forderung nach Schuldenbegleichung</div>
+            </div>
+        </div>
+
+        <!-- 15.05.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">15. Mai</div>
+            <div class="item-content legal">
+                <div class="event-title">Dr. Becker: Kanzleiklausur</div>
+                <div class="event-details">Kategorie: Recht</div>
+                <div class="note-preview">Detail: Keine Erreichbarkeit bis Montag; letzte Prüfung Testament</div>
+            </div>
+        </div>
+
+        <!-- 17.05.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">17. Mai</div>
+            <div class="item-content private">
+                <div class="event-title">Redevorbereitung: Abrechnung</div>
+                <div class="event-details">Kategorie: Privat</div>
+                <div class="note-preview">Detail: Notizen für 70. Geburtstag finalisieren</div>
+            </div>
+        </div>
+
+        <!-- 18.05.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">18. Mai</div>
+            <div class="item-content event-cat highlight">
+                <div class="event-title" style="letter-spacing: 1px;">70. GEBURTSTAG (FAMILIENFEST)</div>
+                <div class="event-details">Kategorie: Event</div>
+                <div class="note-preview">Detail: Ablauf: 18:00 Empfang; 20:00 Rede (Enthüllung)</div>
+            </div>
+        </div>
+
+        <!-- 19.05.2026 -->
+        <div class="timeline-item text-muted">
+            <div class="item-date">19. Mai</div>
+            <div class="item-content private deleted-item">
+                <div class="event-title">Termin gestrichen</div>
+                <div class="event-details">Kategorie: -</div>
+                <div class="note-preview">Ursprünglich: Unterzeichnung neues Testament</div>
+            </div>
+        </div>
+
+        <!-- 01.07.2026 -->
+        <div class="timeline-item">
+            <div class="item-date">01. Jul</div>
+            <div class="item-content legal">
+                <div class="event-title">Nachlassverwaltung (SOKO)</div>
+                <div class="event-details">Kategorie: Recht</div>
+                <div class="note-preview">Detail: Inventur der Waldvilla durch Finanzberaterin</div>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <footer>
-    Letzter Cloud-Sync: 18.05.2026 // Zugriffsebene: ADMINISTRATOR
+    System-Status: Archiv extrahiert // Letzter Cloud-Sync: Unbekannt // Zugriffsebene: ADMINISTRATOR
 </footer>
 
 <script>
     function searchCalendar() {
         let input = document.getElementById('search').value.toLowerCase();
-        let events = document.getElementsByClassName('event');
+        let items = document.getElementsByClassName('timeline-item');
         
-        for (let i = 0; i < events.length; i++) {
-            if (events[i].innerText.toLowerCase().includes(input)) {
-                events[i].style.opacity = "1";
-                events[i].style.transform = "scale(1.05)";
-                events[i].style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
+        for (let i = 0; i < items.length; i++) {
+            let text = items[i].innerText.toLowerCase();
+            if (text.includes(input)) {
+                items[i].style.display = "flex";
+                if (input !== "") {
+                    items[i].style.transform = "scale(1.01)";
+                } else {
+                    items[i].style.transform = "scale(1)";
+                }
             } else {
-                events[i].style.opacity = "0.3";
-                events[i].style.transform = "scale(1)";
-                events[i].style.boxShadow = "none";
-            }
-            if (input === "") {
-                events[i].style.opacity = "1";
-                events[i].style.transform = "scale(1)";
+                items[i].style.display = "none";
             }
         }
     }
