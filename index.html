@@ -39,29 +39,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            flex-wrap: nowrap;
+            gap: 20px;
         }
 
-        /* Container für die rechte Seite im Header (Nav, QR-Code, Suche) */
+        .header-left {
+            flex-shrink: 0;
+        }
+
         .header-right {
             display: flex;
             align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 15px;
+            flex-shrink: 0;
         }
 
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .nav-btn {
             background: transparent;
             border: 1px solid rgba(255,255,255,0.4);
             color: white;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -83,26 +86,35 @@
             cursor: pointer;
         }
 
-        /* QR-Code Styling passend zur Leiste */
-        .qr-code-box {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 4px;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-        }
-        
-        .qr-code-box:hover {
-            transform: scale(1.05);
-        }
-
         .search-box {
             padding: 8px 15px;
             border-radius: 20px;
             border: none;
-            width: 250px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        /* QR-Code Container im Header */
+        .header-qr-container {
+            background: white;
+            padding: 4px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .header-qr-container:hover {
+            transform: scale(1.05);
+        }
+
+        .header-qr-container img {
+            display: block;
+            width: 60px;
+            height: 60px;
         }
 
         .calendar-grid {
@@ -160,7 +172,6 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
 
-        /* Kategorien */
         .legal { background: var(--event-legal); border-left-color: var(--becker-gold); color: #856404; }
         .work { background: var(--event-work); border-left-color: #17a2b8; color: #0c5460; }
         .health { background: var(--event-health); border-left-color: #dc3545; color: #721c24; }
@@ -190,10 +201,12 @@
 
         footer {
             text-align: center;
-            padding: 15px;
+            padding: 15px 20px;
             font-size: 0.7rem;
             color: #888;
             background: #f9f9f9;
+            border-top: 1px solid #eee;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -201,12 +214,11 @@
 
 <div class="calendar-container">
     <header>
-        <div>
+        <div class="header-left">
             <h1 id="calendar-title" style="margin:0; font-size: 1.4rem; letter-spacing: 1px;">MAI 2026</h1>
             <small>Verschlüsseltes Digitalarchiv // Dr. Becker (Privat-Archiv)</small>
         </div>
         
-        <!-- Rechte Header-Sektion gruppiert Navigation, QR-Code und Suche -->
         <div class="header-right">
             <div class="nav-controls">
                 <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
@@ -215,26 +227,26 @@
                 </select>
                 <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
             </div>
-            
-            <!-- Generierter QR Code (40x40px) -->
-            <div class="qr-code-box">
-                <a href="https://123dilin123.github.io/Kalender_Becker/" target="_blank" title="Digitalarchiv mobil öffnen">
-                    <img src="https://chart.googleapis.com/chart?chs=40x40&cht=qr&chl=https://123dilin123.github.io/Kalender_Becker/&choe=UTF-8" dotted alt="QR Code" style="display: block; width: 40px; height: 40px; border: none;">
-                </a>
-            </div>
 
             <input type="text" id="search" class="search-box" placeholder="Archiv durchsuchen..." onkeyup="searchCalendar()">
+            
+            <!-- QR-Code stabil im Header eingebunden -->
+            <div class="header-qr-container">
+                <a href="https://123dilin123.github.io/Kalender_Becker/" target="_blank" title="Digitalarchiv mobil öffnen">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://123dilin123.github.io/Kalender_Becker/" alt="QR Code">
+                </a>
+            </div>
         </div>
     </header>
 
     <div class="calendar-grid" id="calendar-grid">
         <!-- Inhalte werden dynamisch injiziert -->
     </div>
-</div>
 
-<footer>
-    System-Status: Archiv-Abgleich aktiv // Letzter Cloud-Sync: 18.05.2026 // Zugriffsebene: ADMINISTRATOR
-</footer>
+    <footer>
+        System-Status: Archiv-Abgleich aktiv // Letzter Cloud-Sync: 18.05.2026 // Zugriffsebene: ADMINISTRATOR
+    </footer>
+</div>
 
 <script>
     const eventData = {
@@ -243,7 +255,7 @@
         "2025-01-07": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Eröffnungsstatus Vermögenswerte & Kontenübersicht" }],
         "2025-01-10": [{ cat: "work", title: "Beiratssitzung Holding", note: "Durchsprache der Jahresziele Rhein-Main-Holding" }],
         "2025-01-14": [{ cat: "private", title: "Essen ehem. Weggefährten", note: "Dr. Kanzler & Kollegen, Austausch über juristische Netzwerke" }],
-        "2025-01-15": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testamentsänderung (Notiz: Urkunden aufsetzen )" }],
+        "2025-01-15": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testamentsänderung (Notiz: Urkunden aufsetzen)" }],
         "2025-01-17": [{ cat: "finance", title: "Sondersitzung Vermögen", note: "Prüfung ausländischer Kontenstrukturen" }],
         "2025-01-20": [{ cat: "private", title: "Klaus & Partner: Erstbesprechung", note: "Auftrag: Überwachung „Objekt Tochter“" }],
         "2025-01-22": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Erhöhung Liquiditätsreserven für Sonderprojekte" }],
@@ -263,7 +275,7 @@
         "2025-02-19": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Liquiditätsabfluss-Kontrolle" }],
         "2025-02-21": [{ cat: "legal", title: "Rücksprache Kanzlei Becker", note: "Einholen von Auskünften über Stiftungskonstruktionen" }],
         "2025-02-24": [{ cat: "private canceled", title: "Abgesagt: Besuch Tochter", note: "Keine Rückmeldung auf Terminvorschlag" }],
-        "2025-02-26": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Steueroptimierung Immobilienbesitz Waldvilla" }],
+        "2025-02-26": [{ cat: "finance", title: "Steueroptimierung Immobilienbesitz Waldvilla" }],
         "2025-02-28": [{ cat: "health", title: "Apotheke: Medikamentenabholung", note: "Neueinstellung Blutdrucksenker" }],
 
         // --- MÄRZ 2025 ---
@@ -361,8 +373,8 @@
         "2025-09-12": [{ cat: "work", title: "Vorbereitungsmeeting Beirat", note: "Absprache mit Co-Vorsitzendem gegen den Sohn" }],
         "2025-09-17": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Finalisierung Aufsichtsratsnotizen & Sperranträge" }],
         "2025-09-19": [{ cat: "private", title: "Essen mit ehem. Senatspräsidenten", note: "Diskretes Gespräch über Familienrecht und Holdingstrukturen" }],
-        "2025-09-22": [{ cat: "business", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
-        "2025-09-24": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Krisensitzung nach Aufsichtsrat; Einleitung Notfallplan" }],
+        "2025-09-22": [{ cat: "work", title: "Holding-Aufsichtsrat: Sohn", note: "Massive Verluste im Tech-Start-up (Inkompetenz!)" }],
+        "2025-09-24": [{ cat: "finance", title: "Krisensitzung nach Aufsichtsrat; Einleitung Notfallplan" }],
         "2025-09-26": [{ cat: "legal", title: "Mandatsbesprechung Dr. Becker", note: "Vorbereitung formeller Schritte gegen Sohn" }],
         "2025-09-29": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Blutdruckkontrolle (148/92). Anpassung der Abenddosis" }],
 
@@ -383,7 +395,7 @@
         // --- NOVEMBER 2025 ---
         "2025-11-03": [{ cat: "work", title: "Beiratssitzung Holding", note: "Protokollierung der Verfehlungen des Managements" }],
         "2025-11-05": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung K&P Honorare & Freigabe Sonderbudget" }],
-        "2025-11-07": [{ cat: "private canceled", title: "Abgesagt: Essen mit Tochter", note: "Absage per Kanzlei-Sekretariat weitergeleitet" }],
+        "2025-11-07": [{ cat: "private canceled", title: "Essen mit Tochter", note: "Absage per Kanzlei-Sekretariat weitergeleitet" }],
         "2025-11-12": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Vorbereitung Treffen K&P & finale Fragenliste" }],
         "2025-11-14": [{ cat: "health", title: "Praxis Dr. Wagner", note: "Kontrolle Herzfrequenz und Medikation. Zustand unverändert" }],
         "2025-11-15": [{ cat: "private", title: "Termin K&P (Büro)", note: "Übergabe erster Foto-Dossiers" }],
@@ -443,7 +455,7 @@
         "2026-03-09": [{ cat: "work", title: "Beiratstreffen Holding", note: "Abstimmung über Entlastungsverweigerung des Sohnes" }],
         "2026-03-11": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Abstimmung Erbrechtskanzlei & Kostenplanung" }],
         "2026-03-13": [{ cat: "private canceled", title: "Abgesagt: Besuch ", note: "Tochter verweigert Herausgabe/Treffen weiterhin" }],
-        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Rechtsicherhiet Prüfen" }],
+        "2026-03-15": [{ cat: "legal", title: "Instruktion Dr. Gerda Becker", note: "Rechtssicherheit Prüfen" }],
         "2026-03-18": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Umsetzung Pflichtteilsanordnung im Vermögensplan" }],
         "2026-03-20": [{ cat: "private", title: "Diner ehem. Weggefährten", note: "Juristenclub; Erörterung testamentarischer Absicherungen" }],
         "2026-03-23": [{ cat: "health", title: "Labor Dr. Wagner", note: "Erneutes Blutbild; Kontrolle der Stressparameter" }],
@@ -454,45 +466,45 @@
         "2026-04-01": [{ cat: "finance", title: "Jour Fixe Finanzberaterin", note: "Quartalsabschluss I/2026 & Feststellung freier Mittel" }],
         "2026-04-03": [{ cat: "private", title: "Gespräch Sohn", note: "Waldvilla; Letzte bittere Diskussion über Schulden" }],
         "2026-04-06": [{ cat: "health", title: "Blutdruck-Check Routine", note: "150/90. Trotz hoher Belastung den Umständen entsprechend stabil" }],
-        "2026-04-08": [{ cat: "finance", title: "Planung Geburtstagsbudget & Gästeliste für das Fest" }],
+        "2026-04-08": [{ cat: "Planung Geburtstagsbudget & Gästeliste für das Fest" }],
         "2026-04-10": [{ cat: "work", title: "Firmentreffen Rhein-Main-Holding", note: "Neustrukturierung nach Ausscheiden des Sohnes" }],
         "2026-04-12": [{ cat: "private canceled", title: "Abgesagt: Osteressen Familie", note: "Tochter verweigert Teilnahme; Termin komplett gestrichen" }],
-        "2026-04-15": [{ cat: "finance", title: "Sonderzahlungen Event-Agentur & Sicherheitsdienst" }],
+        "2026-04-15": [{ cat: "Sonderzahlungen Event-Agentur & Sicherheitsdienst" }],
         "2026-04-17": [{ cat: "legal", title: "Durchsicht Entwurf Dr. Becker", note: "Letzte rechtliche Feinheiten der Pflichtteilsklausel" }],
         "2026-04-20": [{ cat: "private", title: "Essen mit Weggefährten", note: "Traditioneller Kreis; Besprechung der Einladungen zum 70." }],
-        "2026-04-22": [{ cat: "finance", title: "Vorbereitung Testaments-Endfassung & Dokumentendepot" }],
+        "2026-04-22": [{ cat: "Vorbereitung Testaments-Endfassung & Dokumentendepot" }],
         "2026-04-24": [{ cat: "health", title: "Dr. Wagner: Rezeptausstellung", note: "Vorsichtsmaßnahme für die Festwoche im Mai" }],
-        "2026-04-29": [{ cat: "finance", title: "Abschlussbesprechung Dokumentenmappe für Dr. Becker" }],
+        "2026-04-29": [{ cat: "Abschlussbesprechung Dokumentenmappe für Dr. Becker" }],
 
         // --- MAI 2026 ---
         "2026-05-04": [{ cat: "work", title: "Beiratssitzung Holding", note: "Letzte Freigaben vor dem Jubiläum" }],
-        "2026-05-06": [{ cat: "finance", title: "Letzte Überweisung an K&P (Mandat beendet)" }],
+        "2026-05-06": [{ cat: "Letzte Überweisung an K&P (Mandat beendet)" }],
         "2026-05-08": [{ cat: "health", title: "Blutdruckprüfung Akut", note: "158/95. Nervosität im Vorfeld des Geburtstags" }],
         "2026-05-10": [{ cat: "private", title: "Aussprache Sohn (Abgekanzelt)", note: "Erneute Forderung nach Schuldenbegleichung" }],
         "2026-05-11": [{ cat: "private canceled", title: "Abgesagt: Vorgespräch Geburtstag Tochter", note: "Tochter lehnt jegliche Vorbesprechung ab" }],
-        "2026-05-13": [{ cat: "finance", title: "Protokollierung der Aussprache mit dem Sohn" }],
+        "2026-05-13": [{ cat: "Protokollierung der Aussprache mit dem Sohn" }],
         "2026-05-15": [{ cat: "legal", title: "Dr. Becker: Kanzleiklausur", note: "Keine Erreichbarkeit bis Montag; letzte Prüfung Testament" }],
         "2026-05-17": [{ cat: "private", title: "Redevorbereitung: Abrechnung", note: "Notizen für 70. Geburtstag finalisieren" }],
         "2026-05-18": [{ cat: "work highlight-birthday", title: "70. GEBURTSTAG (FAMILIENFEST)", note: "Ablauf: 18:00 Empfang; 20:00 Rede (Enthüllung)" }],
         "2026-05-19": [{ cat: "legal", title: "Termin Dr. Gerda Becker", note: "Testament ändern! (Dringliche Neufassung nach Vorfall)" }],
-        "2026-05-20": [{ cat: "finance", title: "Eiszeit nach Geburtstag. Besprechung Sofortmaßnahmen Vermögenssicherung." }],
+        "2026-05-20": [{ cat: "Eiszeit nach Geburtstag. Besprechung Sofortmaßnahmen Vermögenssicherung." }],
         "2026-05-22": [{ cat: "health", title: "Dr. Wagner: Notfall-Blutdruckcheck", note: "Extrem hohe Werte gemessen (170/110) nach familiärer Eskalation" }],
         "2026-05-25": [{ cat: "private", title: "Essen mit ehem. Kanzleipartnern", note: "Krisengespräch über Konsequenzen des Geburtstagsabends" }],
-        "2026-05-27": [{ cat: "finance", title: "Sichtung Reaktionen der Verwandtschaft & Anwaltskorrespondenz" }],
+        "2026-05-27": [{ cat: "Sichtung Reaktionen der Verwandtschaft & Anwaltskorrespondenz" }],
         "2026-05-29": [{ cat: "legal", title: "Eilverfügung Privatarchiv", note: "Sicherung aller digitalen Spuren und Beweismittel" }],
 
         // --- JUNI 2026 ---
         "2026-06-01": [{ cat: "work", title: "Holding-Krisenbeirat", note: "Nachwirkungen der Enthüllungsrede auf den Firmenfrieden" }],
-        "2026-06-03": [{ cat: "finance", title: "Verwaltungsschreiben Nachlass-Vorbereitung" }],
+        "2026-06-03": [{ cat: "Verwaltungsschreiben Nachlass-Vorbereitung" }],
         "2026-06-05": [{ cat: "health", title: "Dr. Wagner: EKG-Nachkontrolle", note: "Strikte Bettruhe angeraten, hohes psychosomatisches Risiko" }],
         "2026-06-08": [{ cat: "private canceled", title: "Abgesagt: Klärungsversuch Tochter", note: "Anwaltschaftliche Absage der Gegenseite erhalten" }],
-        "2026-06-10": [{ cat: "finance", title: "Sicherheits-Audit Waldvilla veranlasst; Schlössertausch" }],
+        "2026-06-10": [{ cat: "Sicherheits-Audit Waldvilla veranlasst; Schlössertausch" }],
         "2026-06-12": [{ cat: "private", title: "Diskretes Treffen Weggefährten", note: "Absprache über Rückhalt im lokalen Justizapparat" }],
         "2026-06-15": [{ cat: "health", title: "Blutdruck-Routinecheck", note: "160/95. Werte verbleiben auf gefährlichem Niveau" }],
-        "2026-06-17": [{ cat: "finance", title: "Dokumentensortierung Bankschließfach & Goldreserven" }],
+        "2026-06-17": [{ cat: "Dokumentensortierung Bankschließfach & Goldreserven" }],
         "2026-06-19": [{ cat: "legal", title: "Statusgespräch Dr. Becker", note: "Einreichung der Klageschriften wegen Schenkungswiderruf" }],
         "2026-06-22": [{ cat: "work", title: "Firmentreffen Mainz", note: "Formelle Bereinigung der Gesellschafterlisten" }],
-        "2026-06-24": [{ cat: "finance", title: "Einfrieren gemeinschaftlicher Verfügungsrechte vollzogen" }],
+        "2026-06-24": [{ cat: "Einfrieren gemeinschaftlicher Verfügungsrechte vollzogen" }],
         "2026-06-26": [{ cat: "health", title: "Labor Dr. Wagner", note: "Dringende Überprüfung der Belastungswerte" }],
         "2026-06-29": [{ cat: "private", title: "Treffen mit Sohn", note: "Letztes Aufeinandertreffen vor Zeugen; Reine Formalien" }],
 
@@ -503,12 +515,12 @@
     const monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
     
     let currentYear = 2026;
-    let currentMonth = 4; // Standardmäßig Mai 2026 anzeigen
+    let currentMonth = 4; // Standardmäßig Mai 2026
 
     const select = document.getElementById('month-select');
     for (let year = 2025; year <= 2026; year++) {
         for (let m = 0; m < 12; m++) {
-            if (year === 2026 && m > 6) break; // Nur bis Juli 2026
+            if (year === 2026 && m > 6) break; // Bis Juli 2026 limitieren
             let opt = document.createElement('option');
             opt.value = `${year}-${m}`;
             opt.innerText = `${monthNames[m]} ${year}`;
@@ -598,7 +610,7 @@
                 eventData[dateStr].forEach(ev => {
                     eventsHtml += `
                         <div class="event ${ev.cat}">
-                            <strong>${ev.title}</strong>
+                            <strong>${ev.title || ''}</strong>
                             ${ev.note ? `<span class="note-preview">${ev.note}</span>` : ''}
                         </div>
                     `;
@@ -641,7 +653,7 @@
         }
     }
 
-    // Start-Initialisierung
+    // Initialisierung
     updateSelectValue();
     renderCalendar();
 </script>
